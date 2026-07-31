@@ -207,6 +207,19 @@ and `SensitivityBackend` define the plugin contracts. Capability detection uses
 stable `Capability` identifiers, while normalization helpers convert adapter
 mappings into UQRA result objects.
 
+OpenTURNS is an optional reliability backend:
+
+``` python
+problem.solve("FORM", backend="openturns")
+problem.solve("SORM", backend="openturns", correction="Breitung")
+```
+
+Install it with `python -m pip install -e ".[openturns]"`. Importing UQRA does
+not import OpenTURNS. The adapter supports Normal, arithmetic-moment Lognormal,
+Weibull, and Uniform marginals plus Gaussian-copula correlation. Returned
+metadata records `backend`, `backend_version`, `algorithm`, `correction`, and
+`optimizer`.
+
 ------------------------------------------------------------------------
 
 # 5. OffshoreSafe API

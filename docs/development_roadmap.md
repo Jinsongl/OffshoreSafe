@@ -198,6 +198,7 @@ Progress:
 
 -   [x] Backend interfaces, capability detection, and result normalization
     (Issue #040).
+-   [x] Optional OpenTURNS distribution, FORM, and SORM adapter (Issue #041).
 
 Deliverables:
 
@@ -205,6 +206,8 @@ Deliverables:
 -   backend capability discovery;
 -   normalized backend result contracts;
 -   native-backend compatibility tests and documentation.
+-   OpenTURNS conversion, reliability benchmarks, optional-dependency tests,
+    and isolated CI validation.
 
 ------------------------------------------------------------------------
 

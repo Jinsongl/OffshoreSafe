@@ -231,6 +231,20 @@ Integration:
 
     OpenTURNS API
 
+Implemented Issue #041 scope:
+
+-   optional installation through `pip install -e ".[openturns]"`;
+-   lazy runtime import, so core UQRA does not require OpenTURNS;
+-   Normal, arithmetic-moment Lognormal, Weibull, and Uniform conversion;
+-   Gaussian-copula correlation conversion;
+-   FORM and Breitung, Hohenbichler, and Tvedt SORM;
+-   normalization to `ReliabilityResult` with backend name, version,
+    algorithm, correction, and optimizer metadata.
+
+The backend is registered under `openturns`. If the optional package is not
+installed, discovery remains available but execution raises an installation
+message without affecting the native backend.
+
 ------------------------------------------------------------------------
 
 # 6. FERUM Integration Strategy

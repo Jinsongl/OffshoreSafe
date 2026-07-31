@@ -13,6 +13,10 @@ from typing import Any
 class Capability(StrEnum):
     """Algorithms discoverable through the backend interface."""
 
+    DISTRIBUTION_NORMAL = "distribution.normal"
+    DISTRIBUTION_LOGNORMAL = "distribution.lognormal"
+    DISTRIBUTION_WEIBULL = "distribution.weibull"
+    DISTRIBUTION_UNIFORM = "distribution.uniform"
     RELIABILITY_MONTE_CARLO = "reliability.monte_carlo"
     RELIABILITY_FORM = "reliability.form"
     RELIABILITY_SORM = "reliability.sorm"

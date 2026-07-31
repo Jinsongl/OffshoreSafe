@@ -38,7 +38,7 @@ def test_native_backend_is_discoverable_by_primary_name_and_alias() -> None:
     native = get_backend("native")
 
     assert native is get_backend("uqra")
-    assert available_backends() == ("native",)
+    assert available_backends() == ("native", "openturns")
     assert native.supports(Capability.RELIABILITY_FORM)
     assert native.supports("sampling.sobol")
     assert not native.supports(Capability.SENSITIVITY_SOBOL)
@@ -138,3 +138,39 @@ def test_native_rejects_unknown_methods() -> None:
         backend.solve_reliability(rs_problem(), "unknown")
     with pytest.raises(ValueError, match="unsupported sampling"):
         backend.sample("unknown", 2, 4)
+
+
+def test_importing_uqra_does_not_import_optional_openturns() -> None:
+    import os
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    import uqra
+
+    source_root = Path(uqra.__file__).parents[1]
+    environment = {**os.environ, "PYTHONPATH": str(source_root)}
+    process = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import sys, uqra; assert 'openturns' not in sys.modules",
+        ],
+        cwd=source_root,
+        env=environment,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert process.returncode == 0, process.stderr
+
+
+def test_openturns_missing_dependency_has_actionable_error(monkeypatch: object) -> None:
+    import uqra.backends.openturns as adapter
+
+    def missing(name: str) -> None:
+        raise ModuleNotFoundError(name="openturns")
+
+    monkeypatch.setattr(adapter, "import_module", missing)  # type: ignore[attr-defined]
+    with pytest.raises(RuntimeError, match=r"\[openturns\]"):
+        adapter.OpenTURNSBackend().solve_reliability(rs_problem(), "FORM")

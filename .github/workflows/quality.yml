@@ -30,3 +30,20 @@ jobs:
           python benchmarks/mathematical/core_probability/run.py
           python benchmarks/mathematical/ishigami/run.py
           python benchmarks/mathematical/reliability_engine/run.py
+
+  openturns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install optional OpenTURNS backend
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev,openturns]"
+      - name: Test OpenTURNS adapter
+        env:
+          UQRA_TEST_OPENTURNS: "1"
+        run: python -m pytest -q -m openturns
+      - name: Run OpenTURNS benchmark
+        run: python benchmarks/mathematical/openturns_backend/run.py

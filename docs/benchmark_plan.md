@@ -134,6 +134,22 @@ Sampling baseline:
 
 ------------------------------------------------------------------------
 
+## Optional OpenTURNS Backend Compatibility
+
+Purpose:
+
+-   validate UQRA-to-OpenTURNS distribution and correlation conversion;
+-   compare R-S and Four Branch FORM with analytical and native results;
+-   verify linear SORM reduction and nonlinear Breitung, Hohenbichler, and
+    Tvedt probability order of magnitude;
+-   keep the optional backend outside native test and dependency paths.
+
+Run:
+
+    python benchmarks/mathematical/openturns_backend/run.py
+
+------------------------------------------------------------------------
+
 # 4. Level 1: Structural Reliability Benchmarks
 
 ## Case 4: Axial Beam

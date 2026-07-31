@@ -7,6 +7,7 @@ from uqra.backends import (
     BackendRegistry,
     Capability,
     NativeBackend,
+    OpenTURNSBackend,
     ReliabilityBackend,
     SamplingBackend,
     SensitivityBackend,
@@ -17,6 +18,9 @@ from uqra.backends import (
     normalize_reliability_result,
     normalize_sampling_result,
     normalize_sensitivity_result,
+    openturns_available,
+    to_openturns_distribution,
+    to_openturns_joint_distribution,
 )
 from uqra.core import (
     Distribution,
@@ -59,6 +63,7 @@ __all__ = [
     "MonteCarloSampler",
     "NativeBackend",
     "Normal",
+    "OpenTURNSBackend",
     "RandomVariable",
     "RandomVector",
     "ReliabilityBackend",
@@ -79,4 +84,7 @@ __all__ = [
     "normalize_reliability_result",
     "normalize_sampling_result",
     "normalize_sensitivity_result",
+    "openturns_available",
+    "to_openturns_distribution",
+    "to_openturns_joint_distribution",
 ]

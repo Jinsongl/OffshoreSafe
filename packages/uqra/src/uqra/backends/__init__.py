@@ -15,10 +15,17 @@ from uqra.backends.normalization import (
     normalize_sampling_result,
     normalize_sensitivity_result,
 )
+from uqra.backends.openturns import (
+    OpenTURNSBackend,
+    openturns_available,
+    to_openturns_distribution,
+    to_openturns_joint_distribution,
+)
 from uqra.backends.registry import BackendRegistry
 
 backend_registry = BackendRegistry()
 backend_registry.register(NativeBackend(), aliases=("uqra",))
+backend_registry.register(OpenTURNSBackend())
 
 
 def get_backend(name: str) -> Backend:
@@ -36,6 +43,7 @@ __all__ = [
     "BackendRegistry",
     "Capability",
     "NativeBackend",
+    "OpenTURNSBackend",
     "ReliabilityBackend",
     "SamplingBackend",
     "SensitivityBackend",
@@ -47,4 +55,7 @@ __all__ = [
     "normalize_reliability_result",
     "normalize_sampling_result",
     "normalize_sensitivity_result",
+    "openturns_available",
+    "to_openturns_distribution",
+    "to_openturns_joint_distribution",
 ]

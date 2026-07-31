@@ -1,0 +1,12 @@
+rs_problem:
+  analytical_beta: 2.8284271247461903
+  form_beta_absolute_tolerance: 0.0002
+four_branch:
+  nearest_form_beta: 3.0
+  absolute_tolerance: 0.003
+correlated_gaussian:
+  correlation: 0.4
+  absolute_tolerance: 1.0e-12
+sorm:
+  linear_relative_tolerance: 1.0e-6
+  nonlinear_log10_difference_tolerance: 1.5
