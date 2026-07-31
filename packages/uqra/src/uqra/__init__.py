@@ -1,7 +1,23 @@
 """General uncertainty quantification and reliability analysis tools."""
 
-__version__ = "0.1.0a1"
+__version__ = "0.1.0a2.dev0"
 
+from uqra.backends import (
+    Backend,
+    BackendRegistry,
+    Capability,
+    NativeBackend,
+    ReliabilityBackend,
+    SamplingBackend,
+    SensitivityBackend,
+    SensitivityResult,
+    available_backends,
+    backend_registry,
+    get_backend,
+    normalize_reliability_result,
+    normalize_sampling_result,
+    normalize_sensitivity_result,
+)
 from uqra.core import (
     Distribution,
     Lognormal,
@@ -31,6 +47,9 @@ from uqra.sampling import (
 __all__ = [
     "FORM",
     "SORM",
+    "Backend",
+    "BackendRegistry",
+    "Capability",
     "Distribution",
     "LHSSampler",
     "LatinHypercubeSampler",
@@ -38,15 +57,26 @@ __all__ = [
     "Lognormal",
     "MonteCarloReliability",
     "MonteCarloSampler",
+    "NativeBackend",
     "Normal",
     "RandomVariable",
     "RandomVector",
+    "ReliabilityBackend",
     "ReliabilityProblem",
     "ReliabilityResult",
     "Sampler",
+    "SamplingBackend",
     "SamplingResult",
+    "SensitivityBackend",
+    "SensitivityResult",
     "SobolSampler",
     "Uniform",
     "Weibull",
     "__version__",
+    "available_backends",
+    "backend_registry",
+    "get_backend",
+    "normalize_reliability_result",
+    "normalize_sampling_result",
+    "normalize_sensitivity_result",
 ]

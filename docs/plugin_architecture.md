@@ -76,13 +76,14 @@ Functions:
 Interface:
 
 ``` python
-class ReliabilityBackend:
+from uqra import ReliabilityBackend
 
-    def solve_form(problem):
-        pass
+class ExampleBackend(ReliabilityBackend):
+    name = "example"
+    capabilities = frozenset(...)
 
-    def solve_sorm(problem):
-        pass
+    def solve_reliability(self, problem, method, **options):
+        ...
 ```
 
 Candidates:
@@ -176,6 +177,30 @@ Example:
 
 The user should not need to know whether the calculation was performed
 by OpenTURNS or native UQRA.
+
+Issue #040 provides `normalize_reliability_result()`,
+`normalize_sampling_result()`, and `normalize_sensitivity_result()` for this
+boundary. Adapters may return an existing UQRA result object or a mapping with
+the documented canonical fields.
+
+------------------------------------------------------------------------
+
+# 4.1 Capability Discovery and Registration
+
+Backend capabilities use stable identifiers such as `reliability.form`,
+`sampling.sobol`, and `sensitivity.morris`:
+
+``` python
+from uqra import Capability, available_backends, get_backend
+
+backend = get_backend("native")
+assert backend.supports(Capability.RELIABILITY_FORM)
+print(available_backends())
+```
+
+The built-in registry contains `native` with the alias `uqra`. Optional
+adapters register explicitly through `backend_registry.register()`. Importing
+UQRA does not import or require external backend packages.
 
 ------------------------------------------------------------------------
 

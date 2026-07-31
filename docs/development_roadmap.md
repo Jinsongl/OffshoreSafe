@@ -196,7 +196,7 @@ UQRA 0.1 Alpha
 
 Progress:
 
--   [ ] Backend interfaces, capability detection, and result normalization
+-   [x] Backend interfaces, capability detection, and result normalization
     (Issue #040).
 
 Deliverables:

@@ -6,11 +6,8 @@ from collections.abc import Callable
 from typing import Any
 
 from uqra.core import RandomVector
-from uqra.reliability.form import FORM
 from uqra.reliability.limit_state import LimitStateFunction
-from uqra.reliability.monte_carlo import MonteCarloReliability
 from uqra.reliability.result import ReliabilityResult
-from uqra.reliability.sorm import SORM
 
 
 class ReliabilityProblem:
@@ -38,24 +35,14 @@ class ReliabilityProblem:
         backend: str = "native",
         **options: Any,
     ) -> ReliabilityResult:
-        if backend.casefold() not in {"native", "uqra"}:
+        from uqra.backends import ReliabilityBackend, get_backend
+
+        selected = get_backend(backend)
+        if not isinstance(selected, ReliabilityBackend):
             raise ValueError(
-                f"backend {backend!r} is not available; install a backend plugin first"
+                f"backend {backend!r} does not provide reliability methods"
             )
-        key = method.casefold().replace("-", "").replace("_", "").replace(" ", "")
-        if key in {"montecarlo", "mc", "crudemc"}:
-            solver = MonteCarloReliability(self.variables, self.limit_state)
-        elif key in {"form", "hasoferlind", "hlrf"}:
-            solver = FORM(self.variables, self.limit_state)
-        elif key in {"sorm", "breitung", "hohenbichler", "tvedt"}:
-            solver = SORM(self.variables, self.limit_state)
-            if key != "sorm":
-                options.setdefault("method", method)
-            elif "correction" in options:
-                options.setdefault("method", options.pop("correction"))
-        else:
-            raise ValueError(f"unsupported reliability method: {method}")
-        self.result = solver.solve(**options)
+        self.result = selected.solve_reliability(self, method, **options)
         return self.result
 
 

@@ -26,6 +26,7 @@ jobs:
         run: python -m pytest -q
       - name: Run mathematical benchmarks
         run: |
+          python benchmarks/mathematical/backend_interface/run.py
           python benchmarks/mathematical/core_probability/run.py
           python benchmarks/mathematical/ishigami/run.py
           python benchmarks/mathematical/reliability_engine/run.py

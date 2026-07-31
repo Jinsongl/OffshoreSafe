@@ -6,8 +6,8 @@ import pytest
 from uqra import RandomVariable, __version__
 
 
-def test_package_exposes_alpha_version() -> None:
-    assert __version__ == "0.1.0a1"
+def test_package_exposes_development_version() -> None:
+    assert __version__ == "0.1.0a2.dev0"
 
 
 @pytest.mark.parametrize(

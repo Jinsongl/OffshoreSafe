@@ -201,8 +201,11 @@ SORM supports the Breitung, Hohenbichler, and Tvedt corrections. Random-vector
 correlation is represented with the existing Gaussian-copula transformation.
 
 The built-in backend names are `"native"` and `"uqra"`. Other backend names
-are reserved for the optional plugin layer and fail explicitly until their
-adapters are installed.
+are resolved through the backend registry and fail explicitly until their
+adapters are installed and registered. `ReliabilityBackend`, `SamplingBackend`,
+and `SensitivityBackend` define the plugin contracts. Capability detection uses
+stable `Capability` identifiers, while normalization helpers convert adapter
+mappings into UQRA result objects.
 
 ------------------------------------------------------------------------
 

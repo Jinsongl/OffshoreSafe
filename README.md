@@ -21,7 +21,8 @@ python -m pip install -e ".[dev]"
 python -c "import uqra; print(uqra.__version__)"
 ```
 
-The current prerelease version is `0.1.0a1`.
+The latest tagged prerelease is `v0.1.0a1`. Development after that tag uses
+version `0.1.0a2.dev0`.
 
 ## Public API example
 
