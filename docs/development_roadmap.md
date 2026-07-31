@@ -180,11 +180,11 @@ Deliver:
 
 Release acceptance:
 
--   [ ] editable and isolated package installation;
--   [ ] repeatable probability, sampling, and reliability benchmarks;
--   [ ] stable public API and installation documentation;
--   [ ] clean test and code-quality checks;
--   [ ] `v0.1.0a1` release-candidate tag.
+-   [x] editable and isolated package installation;
+-   [x] repeatable probability, sampling, and reliability benchmarks;
+-   [x] stable public API and installation documentation;
+-   [x] clean test and code-quality checks;
+-   [x] `v0.1.0a1` release-candidate tag.
 
 Version:
 
