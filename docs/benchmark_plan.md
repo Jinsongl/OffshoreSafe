@@ -125,6 +125,13 @@ Reference:
 
 SALib.
 
+Sampling baseline:
+
+-   map unit-cube samples to `[-pi, pi]^3`;
+-   compare Monte Carlo and Latin Hypercube estimates with the analytical
+    mean `a / 2 = 3.5`;
+-   use a fixed seed for reproducibility.
+
 ------------------------------------------------------------------------
 
 # 4. Level 1: Structural Reliability Benchmarks

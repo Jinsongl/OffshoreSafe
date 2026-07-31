@@ -1,0 +1,14 @@
+rs_problem:
+  analytical_beta: 2.8284271247461903
+  analytical_failure_probability: 0.002338867490523633
+  form_beta_absolute_tolerance: 1.0e-5
+  monte_carlo_failure_probability_absolute_tolerance: 3.0e-4
+four_branch:
+  nearest_form_beta: 3.0
+  absolute_tolerance: 2.0e-4
+sorm:
+  methods:
+    - Breitung
+    - Hohenbichler
+    - Tvedt
+  acceptance: finite_probability_in_open_unit_interval

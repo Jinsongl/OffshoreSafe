@@ -104,6 +104,28 @@ Examples:
 
 ------------------------------------------------------------------------
 
+## Sampling Interface
+
+Sampling engines generate points in the standard unit hypercube. Probability
+distributions and transformations map these points to physical variables.
+
+``` python
+sampler = MonteCarloSampler(dimension=3)
+result = sampler.sample(n_samples=1024, random_state=42)
+
+result.samples   # shape: (1024, 3)
+result.metadata  # method, n_samples, dimension, method-specific details
+```
+
+The common signature is `sample(n_samples, random_state=None) ->
+SamplingResult`. `random_state` accepts an integer seed or a NumPy generator.
+Initial engines are `MonteCarloSampler`, `LatinHypercubeSampler` (also exported
+as `LHSSampler`), and `SobolSampler`. Sobol balance is guaranteed for
+power-of-two sample counts and recorded in metadata. Samples and metadata are
+read-only to preserve reproducibility.
+
+------------------------------------------------------------------------
+
 # 3. Limit State API
 
 Definition:
@@ -119,6 +141,17 @@ Examples:
     capacity - damage
 
     allowable motion - response
+
+Native API:
+
+``` python
+g = LimitStateFunction(lambda x: x[..., 0] - x[..., 1])
+```
+
+The constructor also accepts an external simulation model exposing
+`evaluate(X)`. `evaluate_samples()` supports both vectorized analytical
+functions and row-by-row external models. A scalar value greater than zero is
+safe; zero and negative values are failure.
 
 ------------------------------------------------------------------------
 
@@ -150,6 +183,26 @@ Result:
 -   reliability index beta;
 -   design point;
 -   sensitivity.
+
+The implemented native solvers are selected through the same problem API:
+
+``` python
+mc_result = problem.solve("Monte Carlo", n_samples=100_000, random_state=42)
+form_result = problem.solve("FORM")
+sorm_result = problem.solve("SORM", correction="Breitung")
+```
+
+`ReliabilityResult` contains `pf` (and notation alias `Pf`), `beta`, `method`,
+an optional confidence interval, physical and standard-normal design points,
+sensitivity direction, convergence information, and method metadata. Monte
+Carlo uses a Wilson confidence interval. FORM performs the Hasofer-Lind
+minimum-distance design-point search in independent standard-normal space.
+SORM supports the Breitung, Hohenbichler, and Tvedt corrections. Random-vector
+correlation is represented with the existing Gaussian-copula transformation.
+
+The built-in backend names are `"native"` and `"uqra"`. Other backend names
+are reserved for the optional plugin layer and fail explicitly until their
+adapters are installed.
 
 ------------------------------------------------------------------------
 

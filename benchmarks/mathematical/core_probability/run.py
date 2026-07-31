@@ -17,9 +17,7 @@ assert np.isclose(normal.pdf(0.0), 0.3989422804014327, atol=1e-12)
 assert np.isclose(normal.cdf(0.0), 0.5, atol=1e-12)
 assert np.isclose(normal.ppf(0.975), 1.959963984540054, atol=1e-12)
 
-lognormal_samples = Lognormal(mean=10.0, std=2.0).sample(
-    200_000, random_state=1234
-)
+lognormal_samples = Lognormal(mean=10.0, std=2.0).sample(200_000, random_state=1234)
 assert np.isclose(np.mean(lognormal_samples), 10.0, rtol=0.01)
 assert np.isclose(np.std(lognormal_samples), 2.0, rtol=0.01)
 

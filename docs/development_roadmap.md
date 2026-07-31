@@ -26,6 +26,11 @@ Establish repository and development environment.
 
 ### M0.1 Repository
 
+Progress:
+
+-   [ ] Python packaging and version management (Issue #002).
+-   [ ] Pytest and code-quality CI pipeline (Issue #003).
+
 Tasks:
 
 -   create package structure;
@@ -75,6 +80,37 @@ Goal:
 
 Develop general UQ capability.
 
+### Milestone 0.3 Sampling Engine
+
+Progress:
+
+-   [x] Monte Carlo sampling (Issue #020).
+-   [x] Latin Hypercube sampling and Ishigami benchmark (Issue #021).
+-   [x] Sobol low-discrepancy sampling (Issue #022).
+
+Deliverables:
+
+-   stable sampling result and sampler APIs;
+-   reproducible unit-hypercube sampling;
+-   unit tests, statistical validation, benchmark, and documentation.
+
+------------------------------------------------------------------------
+
+### Milestone 0.4 Reliability Engine
+
+Progress:
+
+-   [x] Limit-state function interface (Issue #030).
+-   [x] Monte Carlo reliability (Issue #031).
+-   [x] FORM and design-point search (Issue #032).
+-   [x] SORM probability corrections (Issue #033).
+
+Deliverables:
+
+-   stable reliability result and solver APIs;
+-   R-S, Four Branch, and nonlinear SORM benchmarks;
+-   unit tests, numerical validation, benchmark, and documentation.
+
 ------------------------------------------------------------------------
 
 ## M1.1 Probability Module
@@ -108,6 +144,13 @@ benchmarks:
 
 ## M1.3 Reliability Module
 
+Progress:
+
+-   [x] LimitStateFunction (Issue #030).
+-   [x] Monte Carlo reliability (Issue #031).
+-   [x] FORM (Issue #032).
+-   [x] SORM (Issue #033).
+
 Tasks:
 
 -   LimitStateFunction;
@@ -135,9 +178,33 @@ Deliver:
 -   documentation;
 -   plugin interface.
 
+Release acceptance:
+
+-   [ ] editable and isolated package installation;
+-   [ ] repeatable probability, sampling, and reliability benchmarks;
+-   [ ] stable public API and installation documentation;
+-   [ ] clean test and code-quality checks;
+-   [ ] `v0.1.0a1` release-candidate tag.
+
 Version:
 
 UQRA 0.1 Alpha
+
+------------------------------------------------------------------------
+
+## Milestone 1.1 Plugin Architecture
+
+Progress:
+
+-   [ ] Backend interfaces, capability detection, and result normalization
+    (Issue #040).
+
+Deliverables:
+
+-   `ReliabilityBackend`, `SamplingBackend`, and `SensitivityBackend`;
+-   backend capability discovery;
+-   normalized backend result contracts;
+-   native-backend compatibility tests and documentation.
 
 ------------------------------------------------------------------------
 

@@ -25,9 +25,7 @@ def test_covariance_matrix_derives_correlation_matrix() -> None:
     vector = RandomVector(variables(), covariance_matrix=covariance)
     covariance[0, 0] = 100.0
 
-    assert vector.covariance_matrix == pytest.approx(
-        np.array([[4.0, 3.0], [3.0, 9.0]])
-    )
+    assert vector.covariance_matrix == pytest.approx(np.array([[4.0, 3.0], [3.0, 9.0]]))
     assert vector.correlation_matrix == pytest.approx(
         np.array([[1.0, 0.5], [0.5, 1.0]])
     )
@@ -36,9 +34,7 @@ def test_covariance_matrix_derives_correlation_matrix() -> None:
 def test_copula_and_transformation_are_extension_points() -> None:
     copula = object()
     transformation = object()
-    vector = RandomVector(
-        variables(), copula=copula, transformation=transformation
-    )
+    vector = RandomVector(variables(), copula=copula, transformation=transformation)
 
     assert vector.copula is copula
     assert vector.transformation is transformation
