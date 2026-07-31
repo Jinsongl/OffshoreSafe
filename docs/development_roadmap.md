@@ -28,8 +28,8 @@ Establish repository and development environment.
 
 Progress:
 
--   [ ] Python packaging and version management (Issue #002).
--   [ ] Pytest and code-quality CI pipeline (Issue #003).
+-   [x] Python packaging and version management (Issue #002).
+-   [x] Pytest and code-quality CI pipeline (Issue #003).
 
 Tasks:
 

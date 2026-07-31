@@ -2,14 +2,7 @@
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
 import numpy as np
-
-SOURCE_ROOT = Path(__file__).parents[3] / "packages" / "uqra" / "src"
-sys.path.insert(0, str(SOURCE_ROOT))
-
 from uqra import Lognormal, Normal, RandomVariable, RandomVector
 
 normal = Normal()

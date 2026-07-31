@@ -1,5 +1,7 @@
 """General uncertainty quantification and reliability analysis tools."""
 
+__version__ = "0.1.0a1"
+
 from uqra.core import (
     Distribution,
     Lognormal,
@@ -46,4 +48,5 @@ __all__ = [
     "SobolSampler",
     "Uniform",
     "Weibull",
+    "__version__",
 ]

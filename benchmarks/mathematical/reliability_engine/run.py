@@ -2,14 +2,8 @@
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
 import numpy as np
 from scipy import stats
-
-sys.path.insert(0, str(Path(__file__).parents[3] / "packages" / "uqra" / "src"))
-
 from uqra import (
     FORM,
     SORM,

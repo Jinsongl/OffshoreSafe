@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 import pytest
-from uqra import RandomVariable
+from uqra import RandomVariable, __version__
+
+
+def test_package_exposes_alpha_version() -> None:
+    assert __version__ == "0.1.0a1"
 
 
 @pytest.mark.parametrize(
