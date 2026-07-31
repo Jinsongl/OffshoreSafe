@@ -1,0 +1,29 @@
+name: offshoresafe-dev
+
+channels:
+  - conda-forge
+
+dependencies:
+
+  - python=3.11
+
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - pyyaml
+  - pytest
+
+  - openturns
+
+  - pip
+
+  - pip:
+      - UQpy
+      - chaospy
+      - SALib
+      - emcee
+      - pymc
+      - black
+      - ruff
+      - mypy
