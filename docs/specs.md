@@ -20,7 +20,7 @@ The project adopts a two-layer architecture:
 UQRA is a Python-based open-source framework for uncertainty
 quantification and reliability analysis.
 
-Benchmark targets:
+benchmarks targets:
 
 -   OpenTURNS
 -   UQLab
@@ -147,7 +147,7 @@ For performance-critical modules:
 
 Do not start with Rust/C++.
 
-## 7. Benchmark Cases
+## 7. benchmarks Cases
 
 ### Reliability Algorithm Benchmarks
 
@@ -212,7 +212,7 @@ Outputs:
 
 Reference:
 
-FERUM benchmark.
+FERUM benchmarks.
 
 ### OffshoreSafe Application Cases
 

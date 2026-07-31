@@ -1,8 +1,8 @@
-# OffshoreSafe / UQRA Benchmark Plan
+# OffshoreSafe / UQRA benchmarks Plan
 
 ## 1. Purpose
 
-The benchmark system validates:
+The benchmarks system validates:
 
 1.  UQRA mathematical reliability capability.
 2.  Compatibility with existing tools.
@@ -19,7 +19,7 @@ Reference software:
 
 ------------------------------------------------------------------------
 
-# 2. Benchmark Levels
+# 2. benchmarks Levels
 
     Level 0
     Mathematical Reliability
@@ -73,7 +73,7 @@ Compare:
 
 ## Purpose
 
-Nonlinear reliability benchmark.
+Nonlinear reliability benchmarks.
 
 Characteristics:
 
@@ -92,7 +92,7 @@ Evaluate:
 
 ## Purpose
 
-Global sensitivity benchmark.
+Global sensitivity benchmarks.
 
 Evaluate:
 
@@ -365,11 +365,11 @@ against:
 
 ------------------------------------------------------------------------
 
-# 7. Continuous Benchmark Framework
+# 7. Continuous benchmarks Framework
 
 Recommended structure:
 
-    benchmark/
+    benchmarks/
 
     mathematical/
         rs_problem
@@ -386,7 +386,7 @@ Recommended structure:
         blade
         floating_platform
 
-Each benchmark contains:
+Each benchmarks contains:
 
     input.yaml
 
@@ -400,7 +400,7 @@ Each benchmark contains:
 
 ------------------------------------------------------------------------
 
-# 8. Benchmark Development Priority
+# 8. benchmarks Development Priority
 
 ## First 3 Months
 

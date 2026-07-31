@@ -37,7 +37,7 @@ Every feature requires:
 2.  Example.
 3.  Documentation.
 
-Numerical algorithms require benchmark validation.
+Numerical algorithms require benchmarks validation.
 
 Example:
 
@@ -51,7 +51,7 @@ Example:
 
 ------------------------------------------------------------------------
 
-# 4. Benchmark Rule
+# 4. benchmarks Rule
 
 Each algorithm requires:
 
@@ -80,7 +80,7 @@ Examples:
 
     fix(reliability): correct beta calculation
 
-    test(benchmark): add beam case
+    test(benchmarks): add beam case
 
     docs(api): update interface
 
@@ -91,7 +91,7 @@ Examples:
 Before merge:
 
 -   tests pass;
--   benchmark passes;
+-   benchmarks passes;
 -   documentation updated;
 -   no unnecessary dependency added.
 

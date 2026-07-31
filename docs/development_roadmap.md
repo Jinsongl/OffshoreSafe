@@ -42,6 +42,10 @@ Deliverables:
 
 ### M0.2 Core Data Model
 
+Progress:
+
+-   [x] RandomVariable (Issue #010).
+
 Tasks:
 
 Implement:
@@ -52,7 +56,7 @@ Implement:
 -   Model;
 -   Result objects.
 
-Benchmark:
+benchmarks:
 
 -   normal distribution;
 -   lognormal distribution.
@@ -94,7 +98,7 @@ Tasks:
 -   Latin Hypercube;
 -   Sobol sampling.
 
-Benchmark:
+benchmarks:
 
 -   Ishigami function.
 
@@ -109,7 +113,7 @@ Tasks:
 -   FORM;
 -   SORM.
 
-Benchmark:
+benchmarks:
 
 -   R-S problem;
 -   Four Branch Function.
@@ -125,7 +129,7 @@ Duration:
 Deliver:
 
 -   stable API;
--   benchmark suite;
+-   benchmarks suite;
 -   documentation;
 -   plugin interface.
 

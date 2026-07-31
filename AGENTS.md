@@ -95,7 +95,7 @@ Before coding:
 1.  Read specs.md.
 2.  Read architecture.md.
 3.  Check benchmark_plan.md.
-4.  Update roadmap.
+4.  Update docs/development_roadmap.md.
 
 Every algorithm requires:
 
@@ -122,6 +122,18 @@ Before running Python commands:
 
 conda activate offshoresafe-dev
 
+
+
+------------------------------------------------------------------------
+
+## Documentation Structure
+
+Project roadmap is maintained in:
+
+docs/development_roadmap.md
+
+Do not create or reference alternate roadmap filenames.
+
 ------------------------------------------------------------------------
 
 # Long Term Vision
@@ -138,6 +150,5 @@ Build:
 
 The goal is integration and engineering workflow, not simply rebuilding
 existing libraries.
-
 
 

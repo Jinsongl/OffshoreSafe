@@ -36,6 +36,12 @@ Properties:
 -   distribution
 -   parameters
 -   unit
+-   description
+
+`name` and `distribution` must be non-empty strings. `parameters` is a
+mapping copied into the object, so later changes to the input mapping do
+not change the random-variable definition. Distribution-specific
+operations are defined by the separate distribution interface.
 
 ------------------------------------------------------------------------
 
