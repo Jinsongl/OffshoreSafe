@@ -38,6 +38,28 @@ Reference software:
 
 # 3. Level 0: Mathematical Reliability Benchmarks
 
+## Core Probability Data Model
+
+Purpose:
+
+-   validate analytical Normal, Lognormal, Weibull, and Uniform values;
+-   validate distribution sampling moments;
+-   recover a configured Gaussian correlation matrix from transformed
+    standard-normal samples.
+
+Reference:
+
+-   analytical probability formulas;
+-   SciPy distribution definitions.
+
+Tolerance:
+
+-   analytical values: numerical approximation tolerance;
+-   sampled moments: 1 percent;
+-   Gaussian correlation: absolute tolerance 0.01.
+
+------------------------------------------------------------------------
+
 ## Case 1: R-S Problem
 
 ## Purpose

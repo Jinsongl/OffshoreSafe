@@ -45,6 +45,24 @@ operations are defined by the separate distribution interface.
 
 ------------------------------------------------------------------------
 
+## Distribution Interface
+
+All continuous distributions implement:
+
+``` python
+distribution.pdf(x)
+distribution.cdf(x)
+distribution.ppf(probability)
+distribution.sample(size=1, random_state=None)
+```
+
+Initial implementations are `Normal(mean, std)`,
+`Lognormal(mean, std)`, `Weibull(scale, shape)`, and
+`Uniform(lower, upper)`. Lognormal `mean` and `std` are arithmetic-space
+moments. `random_state` accepts an integer seed or a NumPy generator.
+
+------------------------------------------------------------------------
+
 ## Random Vector
 
 ``` python
@@ -57,8 +75,16 @@ vector = RandomVector(
 Supports:
 
 -   correlation;
+-   covariance input and correlation derivation;
 -   copula;
 -   transformation.
+
+Variable names must be unique. A vector accepts either a correlation
+matrix or a covariance matrix, validates that it is symmetric positive
+semidefinite, and copies it into read-only storage. If neither is given,
+the identity correlation matrix is used. `copula` and `transformation`
+are backend extension points. `correlate()` maps independent
+standard-normal samples to the configured Gaussian correlation.
 
 ------------------------------------------------------------------------
 

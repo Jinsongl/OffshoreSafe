@@ -45,6 +45,8 @@ Deliverables:
 Progress:
 
 -   [x] RandomVariable (Issue #010).
+-   [x] Distribution interface (Issue #011).
+-   [x] RandomVector (Issue #012).
 
 Tasks:
 

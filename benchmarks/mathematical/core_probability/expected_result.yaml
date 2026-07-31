@@ -1,0 +1,12 @@
+normal:
+  pdf_at_zero: 0.3989422804014327
+  cdf_at_zero: 0.5
+  ppf_at_0_975: 1.959963984540054
+  tolerance: 1.0e-12
+lognormal:
+  mean: 10.0
+  std: 2.0
+  relative_tolerance: 0.01
+gaussian_correlation:
+  coefficient: 0.7
+  absolute_tolerance: 0.01
