@@ -247,6 +247,25 @@ message without affecting the native backend.
 
 ------------------------------------------------------------------------
 
+# 5.1 UQpy Integration Strategy
+
+Issue #042 adds the optional `uqpy` backend without changing the native API:
+
+-   install with `pip install -e ".[uqpy]"`;
+-   lazy runtime import, including an actionable error for incomplete installs;
+-   Normal, arithmetic-moment Lognormal, and Uniform conversion;
+-   unit-hypercube Monte Carlo and Latin hypercube sampling;
+-   FORM with Gaussian correlation and Breitung SORM;
+-   normalized `SamplingResult` and `ReliabilityResult` metadata containing
+    backend, UQpy version, and algorithm name.
+
+UQpy 4.2 does not expose a Weibull marginal, so the adapter does not advertise
+that capability. Its legacy `pkg_resources` import requires `setuptools<81`,
+which is isolated in the `uqpy` optional extra. Core installation and import do
+not load UQpy or PyTorch.
+
+------------------------------------------------------------------------
+
 # 6. FERUM Integration Strategy
 
 FERUM is treated as:

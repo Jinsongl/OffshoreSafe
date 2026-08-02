@@ -443,6 +443,12 @@ Each benchmarks contains:
 
     README.md
 
+Optional backend compatibility suites are kept in separate directories and CI
+jobs. `mathematical/openturns_backend` validates Issue #041;
+`mathematical/uqpy_backend` validates Issue #042 using the analytical R-S
+problem, correlated Gaussian FORM, linear SORM degeneration, and reproducible
+Latin hypercube strata.
+
 ------------------------------------------------------------------------
 
 # 8. benchmarks Development Priority

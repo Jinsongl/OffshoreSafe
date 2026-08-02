@@ -220,6 +220,22 @@ Weibull, and Uniform marginals plus Gaussian-copula correlation. Returned
 metadata records `backend`, `backend_version`, `algorithm`, `correction`, and
 `optimizer`.
 
+UQpy is an optional sampling and reliability backend:
+
+``` python
+backend = get_backend("uqpy")
+samples = backend.sample("LHS", dimension=3, n_samples=32, random_state=42)
+form = problem.solve("FORM", backend="uqpy")
+sorm = problem.solve("SORM", backend="uqpy")
+```
+
+Install it with `python -m pip install -e ".[uqpy]"`. The adapter converts
+Normal, arithmetic-moment Lognormal, and Uniform marginals, passes Gaussian
+correlation to UQpy FORM, and normalizes MC/LHS and FORM/SORM outputs. Metadata
+records `backend`, `backend_version`, `algorithm`, and relevant method options.
+UQpy remains absent from the core dependency graph and is imported only when
+the backend executes.
+
 ------------------------------------------------------------------------
 
 # 5. OffshoreSafe API

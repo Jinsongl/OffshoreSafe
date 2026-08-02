@@ -22,10 +22,17 @@ from uqra.backends.openturns import (
     to_openturns_joint_distribution,
 )
 from uqra.backends.registry import BackendRegistry
+from uqra.backends.uqpy import (
+    UQpyBackend,
+    to_uqpy_distribution,
+    to_uqpy_distributions,
+    uqpy_available,
+)
 
 backend_registry = BackendRegistry()
 backend_registry.register(NativeBackend(), aliases=("uqra",))
 backend_registry.register(OpenTURNSBackend())
+backend_registry.register(UQpyBackend())
 
 
 def get_backend(name: str) -> Backend:
@@ -48,6 +55,7 @@ __all__ = [
     "SamplingBackend",
     "SensitivityBackend",
     "SensitivityResult",
+    "UQpyBackend",
     "available_backends",
     "backend_registry",
     "get_backend",
@@ -58,4 +66,7 @@ __all__ = [
     "openturns_available",
     "to_openturns_distribution",
     "to_openturns_joint_distribution",
+    "to_uqpy_distribution",
+    "to_uqpy_distributions",
+    "uqpy_available",
 ]

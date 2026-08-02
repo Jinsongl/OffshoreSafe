@@ -12,6 +12,7 @@ from uqra.backends import (
     SamplingBackend,
     SensitivityBackend,
     SensitivityResult,
+    UQpyBackend,
     available_backends,
     backend_registry,
     get_backend,
@@ -21,6 +22,9 @@ from uqra.backends import (
     openturns_available,
     to_openturns_distribution,
     to_openturns_joint_distribution,
+    to_uqpy_distribution,
+    to_uqpy_distributions,
+    uqpy_available,
 )
 from uqra.core import (
     Distribution,
@@ -75,6 +79,7 @@ __all__ = [
     "SensitivityBackend",
     "SensitivityResult",
     "SobolSampler",
+    "UQpyBackend",
     "Uniform",
     "Weibull",
     "__version__",
@@ -87,4 +92,7 @@ __all__ = [
     "openturns_available",
     "to_openturns_distribution",
     "to_openturns_joint_distribution",
+    "to_uqpy_distribution",
+    "to_uqpy_distributions",
+    "uqpy_available",
 ]

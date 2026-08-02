@@ -199,6 +199,7 @@ Progress:
 -   [x] Backend interfaces, capability detection, and result normalization
     (Issue #040).
 -   [x] Optional OpenTURNS distribution, FORM, and SORM adapter (Issue #041).
+-   [x] Optional UQpy distribution, sampling, FORM, and SORM adapter (Issue #042).
 
 Deliverables:
 
@@ -208,6 +209,8 @@ Deliverables:
 -   native-backend compatibility tests and documentation.
 -   OpenTURNS conversion, reliability benchmarks, optional-dependency tests,
     and isolated CI validation.
+-   UQpy conversion, Monte Carlo and Latin hypercube sampling, FORM/SORM result
+    normalization, optional-dependency tests, benchmarks, and isolated CI validation.
 
 ------------------------------------------------------------------------
 

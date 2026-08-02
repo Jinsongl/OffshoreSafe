@@ -1,0 +1,13 @@
+rs_problem:
+  analytical_beta: 2.8284271247461903
+  form_beta_absolute_tolerance: 0.004
+correlated_gaussian:
+  correlation: 0.4
+  analytical_beta: 3.6514837167011076
+  absolute_tolerance: 0.008
+sorm:
+  linear_relative_tolerance: 0.002
+sampling:
+  dimension: 3
+  samples: 32
+  seed: 42
