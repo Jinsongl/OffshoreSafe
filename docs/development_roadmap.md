@@ -200,6 +200,8 @@ Progress:
     (Issue #040).
 -   [x] Optional OpenTURNS distribution, FORM, and SORM adapter (Issue #041).
 -   [x] Optional UQpy distribution, sampling, FORM, and SORM adapter (Issue #042).
+-   [x] Minimal surrogate backend/result contract and optional Chaospy PCE adapter
+    (Issue #043).
 
 Deliverables:
 
@@ -211,6 +213,9 @@ Deliverables:
     and isolated CI validation.
 -   UQpy conversion, Monte Carlo and Latin hypercube sampling, FORM/SORM result
     normalization, optional-dependency tests, benchmarks, and isolated CI validation.
+-   `SurrogateBackend` and `SurrogateResult`, Chaospy distribution conversion,
+    polynomial-chaos fitting/prediction/statistics, benchmarks, tests, documentation,
+    and isolated CI validation.
 
 ------------------------------------------------------------------------
 

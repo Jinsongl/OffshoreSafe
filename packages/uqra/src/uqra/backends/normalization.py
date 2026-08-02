@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from uqra.backends.base import SensitivityResult
+from uqra.backends.base import SensitivityResult, SurrogateResult
 from uqra.reliability import ReliabilityResult
 from uqra.sampling import SamplingResult
 
@@ -62,8 +62,23 @@ def normalize_sensitivity_result(result: Any) -> SensitivityResult:
     )
 
 
+def normalize_surrogate_result(result: Any) -> SurrogateResult:
+    """Normalize a fitted surrogate object or plugin result mapping."""
+    if isinstance(result, SurrogateResult):
+        return result
+    if not isinstance(result, Mapping):
+        raise TypeError("surrogate backend result must be a mapping")
+    return SurrogateResult(
+        method=str(_required(result, "method")),
+        surrogate=_required(result, "surrogate", "predictor", "model"),
+        statistics=dict(result.get("statistics", {})),
+        metadata=dict(result.get("metadata", {})),
+    )
+
+
 __all__ = [
     "normalize_reliability_result",
     "normalize_sampling_result",
     "normalize_sensitivity_result",
+    "normalize_surrogate_result",
 ]

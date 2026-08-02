@@ -140,6 +140,20 @@ Candidates:
 -   Tasmanian
 -   scikit-learn
 
+Issue #043 adds the minimal runtime contract:
+
+``` python
+class SurrogateBackend(Backend):
+    def fit_surrogate(self, model, variables, method, **options): ...
+
+result = get_backend("chaospy").fit_surrogate(model, variables, "PCE", order=3)
+prediction = result.predict(samples)
+```
+
+`SurrogateResult` contains the method, a callable fitted surrogate, summary
+statistics, and traceability metadata. `normalize_surrogate_result()` accepts
+the same contract from external plugins.
+
 ------------------------------------------------------------------------
 
 ## 3.5 Bayesian Backend
@@ -263,6 +277,26 @@ UQpy 4.2 does not expose a Weibull marginal, so the adapter does not advertise
 that capability. Its legacy `pkg_resources` import requires `setuptools<81`,
 which is isolated in the `uqpy` optional extra. Core installation and import do
 not load UQpy or PyTorch.
+
+------------------------------------------------------------------------
+
+# 5.2 Chaospy Integration Strategy
+
+Issue #043 registers the optional `chaospy` backend and supports:
+
+-   Normal, arithmetic-moment Lognormal, Weibull, and Uniform conversion;
+-   independent joint distributions for polynomial chaos;
+-   orthonormal polynomial basis generation;
+-   Gaussian quadrature/spectral projection and Sobol point regression;
+-   scalar or vector model evaluation and surrogate prediction;
+-   analytical PCE mean, variance, and standard deviation;
+-   normalized metadata including version, order, basis size, fitting method,
+    rule, and training sample count.
+
+Install with `pip install -e ".[chaospy]"`. Current numpoly releases require
+NumPy 2, while UQpy 4.2 fixes NumPy 1.26; therefore these optional backends use
+separate CI jobs and are never co-installed in the core environment. Correlated
+PCE is outside the first-stage contract and is rejected explicitly.
 
 ------------------------------------------------------------------------
 

@@ -16,11 +16,13 @@ from uqra import (
     ReliabilityResult,
     SamplingResult,
     SensitivityResult,
+    SurrogateResult,
     available_backends,
     get_backend,
     normalize_reliability_result,
     normalize_sampling_result,
     normalize_sensitivity_result,
+    normalize_surrogate_result,
 )
 
 
@@ -38,7 +40,7 @@ def test_native_backend_is_discoverable_by_primary_name_and_alias() -> None:
     native = get_backend("native")
 
     assert native is get_backend("uqra")
-    assert available_backends() == ("native", "openturns", "uqpy")
+    assert available_backends() == ("chaospy", "native", "openturns", "uqpy")
     assert native.supports(Capability.RELIABILITY_FORM)
     assert native.supports("sampling.sobol")
     assert not native.supports(Capability.SENSITIVITY_SOBOL)
@@ -91,12 +93,28 @@ def test_sampling_and_sensitivity_mappings_are_normalized() -> None:
     assert sensitivity.indices["S1"] == [0.3, 0.7]
 
 
+def test_surrogate_mapping_is_normalized_and_predictable() -> None:
+    result = normalize_surrogate_result(
+        {
+            "method": "external PCE",
+            "predictor": lambda samples: np.asarray(samples)[:, 0],
+            "statistics": {"mean": 0.5},
+            "metadata": {"backend": "example"},
+        }
+    )
+
+    assert isinstance(result, SurrogateResult)
+    assert result.predict([[0.25], [0.75]]) == pytest.approx([0.25, 0.75])
+    assert result.statistics["mean"] == pytest.approx(0.5)
+
+
 @pytest.mark.parametrize(
     "normalizer",
     [
         normalize_reliability_result,
         normalize_sampling_result,
         normalize_sensitivity_result,
+        normalize_surrogate_result,
     ],
 )
 def test_normalizers_reject_non_mapping_results(normalizer: object) -> None:
@@ -156,7 +174,8 @@ def test_importing_uqra_does_not_import_optional_backends() -> None:
             "-c",
             "import sys, uqra; "
             "assert 'openturns' not in sys.modules; "
-            "assert 'UQpy' not in sys.modules",
+            "assert 'UQpy' not in sys.modules; "
+            "assert 'chaospy' not in sys.modules",
         ],
         cwd=source_root,
         env=environment,
@@ -187,3 +206,14 @@ def test_uqpy_missing_dependency_has_actionable_error(monkeypatch: object) -> No
     monkeypatch.setattr(adapter, "import_module", missing)  # type: ignore[attr-defined]
     with pytest.raises(RuntimeError, match=r"\[uqpy\]"):
         adapter.UQpyBackend().sample("MC", 2, 4)
+
+
+def test_chaospy_missing_dependency_has_actionable_error(monkeypatch: object) -> None:
+    import uqra.backends.chaospy as adapter
+
+    def missing(name: str) -> None:
+        raise ModuleNotFoundError(name="chaospy")
+
+    monkeypatch.setattr(adapter, "import_module", missing)  # type: ignore[attr-defined]
+    with pytest.raises(RuntimeError, match=r"\[chaospy\]"):
+        adapter.ChaospyBackend().fit_surrogate(lambda x: x[0], object())

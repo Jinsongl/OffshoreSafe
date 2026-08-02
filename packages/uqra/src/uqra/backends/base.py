@@ -25,6 +25,7 @@ class Capability(StrEnum):
     SAMPLING_SOBOL = "sampling.sobol"
     SENSITIVITY_SOBOL = "sensitivity.sobol"
     SENSITIVITY_MORRIS = "sensitivity.morris"
+    SURROGATE_PCE = "surrogate.pce"
 
 
 def normalize_capability(capability: Capability | str) -> Capability:
@@ -87,6 +88,16 @@ class SensitivityBackend(Backend):
         """Analyze a model and return a normalizable result."""
 
 
+class SurrogateBackend(Backend):
+    """Contract for surrogate-model providers."""
+
+    @abstractmethod
+    def fit_surrogate(
+        self, model: Any, variables: Any, method: str, **options: Any
+    ) -> Any:
+        """Fit a surrogate and return a normalizable result."""
+
+
 @dataclass(frozen=True, slots=True)
 class SensitivityResult:
     """Backend-independent sensitivity result."""
@@ -102,6 +113,28 @@ class SensitivityResult:
         object.__setattr__(self, "metadata", MappingProxyType(dict(self.metadata)))
 
 
+@dataclass(frozen=True, slots=True)
+class SurrogateResult:
+    """Backend-independent fitted surrogate with summary statistics."""
+
+    method: str
+    surrogate: Any
+    statistics: Mapping[str, Any] = field(default_factory=dict)
+    metadata: Mapping[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.method, str) or not self.method.strip():
+            raise ValueError("method must be a non-empty string")
+        if not callable(self.surrogate):
+            raise TypeError("surrogate must be callable")
+        object.__setattr__(self, "statistics", MappingProxyType(dict(self.statistics)))
+        object.__setattr__(self, "metadata", MappingProxyType(dict(self.metadata)))
+
+    def predict(self, samples: Any) -> Any:
+        """Evaluate the fitted surrogate at one point or a row-wise sample matrix."""
+        return self.surrogate(samples)
+
+
 __all__ = [
     "Backend",
     "Capability",
@@ -109,5 +142,7 @@ __all__ = [
     "SamplingBackend",
     "SensitivityBackend",
     "SensitivityResult",
+    "SurrogateBackend",
+    "SurrogateResult",
     "normalize_capability",
 ]

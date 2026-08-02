@@ -448,6 +448,9 @@ jobs. `mathematical/openturns_backend` validates Issue #041;
 `mathematical/uqpy_backend` validates Issue #042 using the analytical R-S
 problem, correlated Gaussian FORM, linear SORM degeneration, and reproducible
 Latin hypercube strata.
+`mathematical/chaospy_backend` validates Issue #043 using exact quadratic PCE
+recovery through both quadrature and regression, plus Ishigami mean and
+variance against analytical values.
 
 ------------------------------------------------------------------------
 

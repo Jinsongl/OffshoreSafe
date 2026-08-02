@@ -7,13 +7,22 @@ from uqra.backends.base import (
     SamplingBackend,
     SensitivityBackend,
     SensitivityResult,
+    SurrogateBackend,
+    SurrogateResult,
     normalize_capability,
+)
+from uqra.backends.chaospy import (
+    ChaospyBackend,
+    chaospy_available,
+    to_chaospy_distribution,
+    to_chaospy_joint_distribution,
 )
 from uqra.backends.native import NativeBackend
 from uqra.backends.normalization import (
     normalize_reliability_result,
     normalize_sampling_result,
     normalize_sensitivity_result,
+    normalize_surrogate_result,
 )
 from uqra.backends.openturns import (
     OpenTURNSBackend,
@@ -33,6 +42,7 @@ backend_registry = BackendRegistry()
 backend_registry.register(NativeBackend(), aliases=("uqra",))
 backend_registry.register(OpenTURNSBackend())
 backend_registry.register(UQpyBackend())
+backend_registry.register(ChaospyBackend())
 
 
 def get_backend(name: str) -> Backend:
@@ -49,21 +59,28 @@ __all__ = [
     "Backend",
     "BackendRegistry",
     "Capability",
+    "ChaospyBackend",
     "NativeBackend",
     "OpenTURNSBackend",
     "ReliabilityBackend",
     "SamplingBackend",
     "SensitivityBackend",
     "SensitivityResult",
+    "SurrogateBackend",
+    "SurrogateResult",
     "UQpyBackend",
     "available_backends",
     "backend_registry",
+    "chaospy_available",
     "get_backend",
     "normalize_capability",
     "normalize_reliability_result",
     "normalize_sampling_result",
     "normalize_sensitivity_result",
+    "normalize_surrogate_result",
     "openturns_available",
+    "to_chaospy_distribution",
+    "to_chaospy_joint_distribution",
     "to_openturns_distribution",
     "to_openturns_joint_distribution",
     "to_uqpy_distribution",

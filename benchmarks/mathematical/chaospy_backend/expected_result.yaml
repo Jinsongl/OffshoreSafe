@@ -1,0 +1,10 @@
+quadratic:
+  order: 2
+  prediction_absolute_tolerance: 1.0e-10
+ishigami:
+  order: 9
+  quadrature_order: 10
+  analytical_mean: 3.5
+  mean_absolute_tolerance: 1.0e-6
+  analytical_variance: 13.844587940719254
+  variance_absolute_tolerance: 0.01

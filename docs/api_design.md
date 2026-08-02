@@ -236,6 +236,28 @@ records `backend`, `backend_version`, `algorithm`, and relevant method options.
 UQpy remains absent from the core dependency graph and is imported only when
 the backend executes.
 
+The minimal surrogate backend API is:
+
+``` python
+backend = get_backend("chaospy")
+result = backend.fit_surrogate(
+    model,
+    random_vector,
+    "PCE",
+    order=3,
+    fit="quadrature",
+)
+predictions = result.predict(samples)
+mean = result.statistics["mean"]
+variance = result.statistics["variance"]
+```
+
+`SurrogateBackend.fit_surrogate()` is the plugin boundary. `SurrogateResult`
+contains a callable predictor, summary statistics, and metadata. The optional
+Chaospy adapter supports `fit="quadrature"` and `fit="regression"` for
+independent Normal, Lognormal, Weibull, and Uniform variables. Install it with
+`python -m pip install -e ".[chaospy]"`.
+
 ------------------------------------------------------------------------
 
 # 5. OffshoreSafe API

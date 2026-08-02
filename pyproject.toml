@@ -21,6 +21,11 @@ dev = [
 ]
 openturns = ["openturns>=1.25"]
 uqpy = ["UQpy>=4.2,<4.3", "setuptools<81"]
+chaospy = [
+    "chaospy>=4.3.21,<4.4",
+    "numpoly>=1.3.9,<1.4",
+    "numpy>=2.0,<2.3",
+]
 
 [tool.setuptools]
 package-dir = { "" = "packages/uqra/src" }
@@ -37,6 +42,7 @@ addopts = "--strict-markers --strict-config"
 markers = [
     "openturns: requires the optional OpenTURNS backend",
     "uqpy: requires the optional UQpy backend",
+    "chaospy: requires the optional Chaospy backend",
 ]
 
 [tool.ruff]
