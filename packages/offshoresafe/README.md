@@ -8,3 +8,5 @@ and the solver-independent `SolverAdapter` / `SolverResult` interface.
 `EngineeringAnalysisWorkflow` connects those contracts to configured channel
 statistics, extreme-response, and fatigue analyses and emits immutable,
 traceable JSON-ready results.
+The first structural vertical slice adds tower-base bending reliability through
+the same result contract and UQRA reliability backends.

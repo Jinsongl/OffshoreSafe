@@ -2,7 +2,8 @@
 
 Last reviewed: 2026-08-03
 
-Last completed commit at review start: `c5f3fe6` (`feat(offshoresafe): add extreme and fatigue analysis`)
+Review baseline includes the Issue #064 engineering workflow and Issue #070
+tower reliability vertical slice.
 
 Status legend:
 
@@ -44,17 +45,18 @@ The plan is designed for:
 | 1.1 Plugin Architecture | Complete | Native, OpenTURNS, UQpy, Chaospy, and SALib backends |
 | 2.0 OffshoreSafe MVP: solver integration | Partially complete | Project schema, solver contract, OpenFAST ASCII, and HEROWIND text adapters; Bladed deferred |
 | 2.1 Engineering Post Processing | Complete | Statistics, extremes, rainflow, Miner damage, S-N curves, DEL, and the configured analysis workflow |
-| 2.2 Offshore Reliability | Planned | Tower, blade-fatigue, and floating-platform reliability workflows |
+| 2.2 Offshore Reliability | Partially complete | Tower-base bending reliability complete; blade-fatigue and floating-platform workflows planned |
 | 3.0 Environmental Contour | Planned | Metocean model and IFORM contour |
 | 4.0 Reporting and Traceability | Planned | End-to-end provenance and engineering reports |
 
 Current verification baseline:
 
--   139 tests pass in the `offshoresafe-dev` Python 3.11 environment.
+-   145 tests pass in the `offshoresafe-dev` Python 3.11 environment.
 -   37 optional-backend tests are skipped when their third-party packages are
     not installed.
 -   Ruff lint and format checks pass.
--   The engineering-workflow, extreme-response, and fatigue benchmarks pass.
+-   The tower-reliability, engineering-workflow, extreme-response, and fatigue
+    benchmarks pass.
 
 The architectural boundary remains intact: OffshoreSafe depends on UQRA, while
 UQRA contains no offshore engineering or solver-specific imports.
@@ -71,8 +73,9 @@ UQRA contains no offshore engineering or solver-specific imports.
 | #050--#053 | Complete | OffshoreSafe project schema, solver result contract, OpenFAST, and HEROWIND adapters |
 | #054 | Deferred | Bladed PRJ and result formats postponed by project decision |
 | #060--#063 | Complete | Engineering statistics, extremes, rainflow, fatigue damage, and DEL |
-| #064 | Complete in current working tree | End-to-end engineering analysis orchestration, result provenance, and deterministic JSON |
-| #070--#072 | Planned | Structural reliability application workflows |
+| #064 | Complete in `15e4c44` | End-to-end engineering analysis orchestration, result provenance, and deterministic JSON |
+| #070 | Complete | Tower-base bending reliability through normalized solver results and UQRA FORM/Monte Carlo |
+| #071--#072 | Planned | Blade-fatigue and floating-platform reliability workflows |
 | #080--#081 | Planned | Metocean probability model and IFORM contour |
 | #090--#091 | Planned | Cross-workflow traceability and report generation |
 
@@ -483,7 +486,7 @@ Support:
 
 ## Issue #064 Engineering Analysis Workflow
 
-Status: **Complete in the current working tree**.
+Status: **Complete** in commit `15e4c44`.
 
 Objective:
 
@@ -536,6 +539,8 @@ Acceptance:
 
 ## Issue #070 Tower Reliability
 
+Status: **Complete**.
+
 Workflow:
 
     Tower loads
@@ -555,7 +560,29 @@ Workflow:
 Output:
 
 -   Pf;
--   beta.
+-   beta;
+-   design points and sensitivity direction;
+-   convergence and backend metadata;
+-   Issue #064 project, solver, source-hash, parameter, version, and timestamp
+    provenance.
+
+Implemented scope:
+
+-   normalized tower-base moment selection by maximum, minimum magnitude, or
+    maximum absolute value;
+-   bending limit state `fy * Z * 1000 / gamma_m - Mref * L * gamma_f`;
+-   explicit yield-strength, section-modulus, and load-factor random variables;
+-   optional correlation matrix and deterministic design factors;
+-   native UQRA FORM and Monte Carlo, with other compatible reliability backends
+    available through the existing backend name;
+-   deterministic OpenFAST fixture benchmark against a first-order analytical
+    linearization and fixed FORM reference.
+
+Limitations:
+
+-   bending screening only; buckling, shell interaction, welds, multi-axial
+    interaction, fatigue, and code calibration are not implicit;
+-   the fixture is a numerical verification case, not a certified turbine design.
 
 ------------------------------------------------------------------------
 
@@ -663,9 +690,9 @@ Advanced features:
 
 ## Product and workflow gaps
 
--   Issue #064 now provides the application-level result envelope and persistence
-    contract for configured statistics, extreme, and fatigue analyses. Structural
-    reliability analyses are not yet connected to that envelope.
+-   Issue #064 provides the application-level result envelope and persistence
+    contract. Issue #070 now connects tower bending reliability to that envelope;
+    blade-fatigue and floating-platform reliability remain unimplemented.
 -   OpenFAST support currently reads primary input metadata and ASCII output
     only. Binary output and solver execution are outside the adapter contract.
 -   HEROWIND support is limited to the verified YAML input and
@@ -685,8 +712,9 @@ Advanced features:
     curve, Miner accumulation, and DEL. It does not apply an implicit mean-stress
     correction, thickness correction, safety factor, or code-specific design
     rule.
--   Structural limit states for towers, blades, floating platforms, and mooring
-    systems are not implemented.
+-   The tower model currently covers a single tower-base bending limit state.
+    Blade, floating-platform, mooring, buckling, shell-interaction, and combined
+    tower limit states are not implemented.
 
 ## Development and verification constraints
 
@@ -720,10 +748,9 @@ The workflow is covered by OpenFAST and HEROWIND end-to-end tests and a fixed
 OpenFAST benchmark. It is the reusable foundation for structural reliability
 and reporting.
 
-## Priority 1 --- Issue #070 Tower Reliability Vertical Slice
+## Completed Priority --- Issue #070 Tower Reliability Vertical Slice
 
-After Issue #064 is accepted, implement the first complete structural
-reliability application:
+The first complete structural reliability application now:
 
 -   define a tower limit-state contract in OffshoreSafe;
 -   map normalized tower-load channels to the limit-state inputs;
@@ -732,9 +759,16 @@ reliability application:
 -   preserve the engineering-analysis provenance from Issue #064;
 -   validate against a small analytical or published tower/beam reference case.
 
-Tower reliability is preferred over blade fatigue and floating-platform
-reliability because it offers the smallest first vertical slice while exercising
-the OffshoreSafe-to-UQRA dependency direction.
+The implementation is covered by unit, configured OpenFAST workflow, native
+FORM, native Monte Carlo, traceability, and analytical-reference benchmark
+checks.
+
+## Priority 1 --- Issue #071 Blade Fatigue Reliability
+
+Build the next vertical slice by combining the existing rainflow/Miner/DEL
+pipeline with uncertain S-N capacity and UQRA reliability solving. Define the
+fatigue limit state, uncertainty contract, cycle-block assumptions, and a small
+analytical reference before implementation.
 
 ## Priority 2 --- Harden Engineering Post-processing
 
@@ -748,17 +782,15 @@ Open focused follow-up issues only where application requirements justify them:
 These enhancements should not block Issue #070 unless its acceptance fixtures
 demonstrate a concrete need.
 
-## Priority 3 --- Issues #071, #072, #080, and #081
+## Priority 3 --- Issues #072, #080, and #081
 
-Proceed in this order after the tower vertical slice:
+Proceed in this order after the blade-fatigue vertical slice:
 
-1.  Blade fatigue reliability, reusing the established fatigue and reliability
-    result contracts.
-2.  Metocean random model and IFORM contour, providing reusable environmental
+1.  Metocean random model and IFORM contour, providing reusable environmental
     inputs.
-3.  Floating-platform reliability, which depends on the broader metocean and
+2.  Floating-platform reliability, which depends on the broader metocean and
     solver-integration surface.
-4.  Reporting and full traceability consolidation after at least two structural
+3.  Reporting and full traceability consolidation after at least two structural
     workflows produce stable result schemas.
 
 ------------------------------------------------------------------------
@@ -776,8 +808,7 @@ Completed foundation:
 
 Active critical path:
 
-    Issue #070 tower reliability
-        -> Issue #071 blade fatigue reliability
+    Issue #071 blade fatigue reliability
         -> Issues #080/#081 metocean and environmental contour
         -> Issue #072 floating-platform reliability
         -> Issues #090/#091 reporting and traceability

@@ -37,6 +37,11 @@ from offshoresafe.solver import (
     SolverCapability,
     SolverResult,
 )
+from offshoresafe.structural import (
+    TowerBendingLimitState,
+    analyze_tower_reliability,
+    build_tower_random_vector,
+)
 
 __all__ = [
     "AnalysisConfiguration",
@@ -59,8 +64,11 @@ __all__ = [
     "SolverInformation",
     "SolverResult",
     "StatisticsResult",
+    "TowerBendingLimitState",
     "TurbineInformation",
     "__version__",
+    "analyze_tower_reliability",
+    "build_tower_random_vector",
     "calculate_del",
     "calculate_fatigue_damage",
     "compute_statistics",

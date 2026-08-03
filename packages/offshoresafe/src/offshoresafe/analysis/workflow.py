@@ -22,6 +22,7 @@ from offshoresafe.postprocessing import (
 )
 from offshoresafe.project import AnalysisConfiguration, OffshoreProject
 from offshoresafe.solver import HEROWINDAdapter, OpenFASTAdapter, SolverAdapter
+from offshoresafe.structural import analyze_tower_reliability
 
 _RESULT_FIELDS = {
     "schema_version",
@@ -318,6 +319,14 @@ class EngineeringAnalysisWorkflow:
                     "damage_equivalent_load": equivalent_load,
                 },
                 settings,
+            )
+
+        if analysis_type == "tower_reliability":
+            return analyze_tower_reliability(
+                solver_result,
+                analysis.settings,
+                method=analysis.method,
+                backend=analysis.backend,
             )
 
         raise ValueError(

@@ -291,6 +291,11 @@ Functions:
 
 ## M3.3 Structural Reliability
 
+Progress:
+
+-   [x] Tower-base bending reliability vertical slice using normalized solver
+    loads and UQRA FORM/Monte Carlo (Issue #070).
+
 Applications:
 
 -   tower reliability;

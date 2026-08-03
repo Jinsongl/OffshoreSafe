@@ -1,0 +1,34 @@
+schema_version: "1.0"
+project:
+  project_id: tower-reliability-benchmark
+  name: Tower reliability benchmark
+turbine:
+  turbine_id: reference-15mw
+  model: Reference 15 MW
+  rated_power_mw: 15.0
+  definition_file: turbine.yaml
+solver:
+  solver_id: openfast-tower
+  adapter: openfast
+  input_file: ../../openfast_adapter/input/main.fst
+  output_file: tower.out
+analyses:
+  - analysis_id: tower-form
+    analysis_type: tower_reliability
+    method: FORM
+    backend: native
+    settings:
+      channel: tower_base_fore_aft_moment
+      load_statistic: maximum_absolute
+      variables:
+        yield_strength:
+          distribution: Normal
+          parameters: {mean: 355.0, std: 17.75}
+          unit: MPa
+        section_modulus:
+          distribution: Normal
+          parameters: {mean: 0.1, std: 0.005}
+          unit: m^3
+        load_factor:
+          distribution: Normal
+          parameters: {mean: 1.0, std: 0.05}

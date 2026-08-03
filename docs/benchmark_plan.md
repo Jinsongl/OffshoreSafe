@@ -472,6 +472,10 @@ history with analytical rainflow count, Miner damage, and DEL.
 project, normalizing an OpenFAST ASCII result, executing statistics, extreme,
 and fatigue analyses, checking fixed reference results, and retaining both
 input and output hashes.
+`offshore/tower_reliability` validates Issue #070 by mapping a normalized
+OpenFAST tower-base moment into an OffshoreSafe bending limit state, solving it
+with native UQRA FORM, and comparing the reliability index with an analytical
+first-order linearization and a fixed design-point reference.
 
 ------------------------------------------------------------------------
 

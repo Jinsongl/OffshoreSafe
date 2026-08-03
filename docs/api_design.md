@@ -417,6 +417,45 @@ existing result object and round-trips through `EngineeringAnalysisResult.load()
 This orchestration belongs to OffshoreSafe. UQRA does not import the project,
 solver, or engineering-result contracts.
 
+Issue #070 adds the first structural reliability vertical slice. The tower-base
+bending limit state is
+
+``` text
+g(X) = fy * Z * 1000 / gamma_m - Mref * L * gamma_f
+```
+
+where `fy` is yield strength in MPa, `Z` is section modulus in cubic metres,
+`Mref` is the selected normalized tower-base moment in kN-m, and `L` is a
+dimensionless load factor. Positive margin is safe. Material, geometry, and
+load uncertainty remain explicit UQRA `RandomVariable` definitions.
+
+``` yaml
+- analysis_id: tower-form
+  analysis_type: tower_reliability
+  method: FORM
+  backend: native
+  settings:
+    channel: tower_base_fore_aft_moment
+    load_statistic: maximum_absolute
+    variables:
+      yield_strength:
+        distribution: Normal
+        parameters: {mean: 355.0, std: 17.75}
+        unit: MPa
+      section_modulus:
+        distribution: Normal
+        parameters: {mean: 0.1, std: 0.005}
+        unit: m^3
+      load_factor:
+        distribution: Normal
+        parameters: {mean: 1.0, std: 0.05}
+```
+
+The workflow passes the resulting `RandomVector` and OffshoreSafe limit-state
+model to UQRA. Its traceable result payload contains `pf`, `beta`, convergence,
+design point, sensitivity, reference load, design factors, variable definitions,
+and backend metadata.
+
 Implemented workflow adapters:
 
 -   HEROWIND
