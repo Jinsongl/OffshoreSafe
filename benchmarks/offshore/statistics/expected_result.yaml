@@ -1,0 +1,7 @@
+sample_count: 5
+channel: load
+mean: 3.0
+standard_deviation: 1.4142135623730951
+minimum: 1.0
+maximum: 5.0
+rms: 3.3166247903554

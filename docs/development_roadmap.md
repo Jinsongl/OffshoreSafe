@@ -247,6 +247,8 @@ Progress:
     output metadata extraction, and fixture benchmark (Issue #052).
 -   [x] HEROWIND comma-header/whitespace-data result reader and unified channel
     mapping with traceability metadata (Issue #053).
+-   [ ] Bladed PRJ and result-channel adapter deferred by project decision
+    (Issue #054).
 
 Support:
 
@@ -264,6 +266,11 @@ Functions:
 ------------------------------------------------------------------------
 
 ## M3.2 Engineering Post-processing
+
+Progress:
+
+-   [x] Immutable per-channel mean, standard deviation, maximum, minimum, and
+    RMS statistics over normalized solver results (Issue #060).
 
 Functions:
 

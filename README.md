@@ -80,3 +80,4 @@ The external solver normalization contract is documented in
 OpenFAST ASCII input/output integration is documented in
 `docs/openfast_adapter.md`.
 HEROWIND text-result integration is documented in `docs/herowind_adapter.md`.
+Engineering channel statistics are documented in `docs/statistics.md`.

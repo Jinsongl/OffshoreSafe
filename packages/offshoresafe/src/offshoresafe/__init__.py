@@ -2,6 +2,11 @@
 
 __version__ = "0.1.0a1.dev0"
 
+from offshoresafe.postprocessing import (
+    ChannelStatistics,
+    StatisticsResult,
+    compute_statistics,
+)
 from offshoresafe.project import (
     AnalysisConfiguration,
     OffshoreProject,
@@ -21,6 +26,7 @@ from offshoresafe.solver import (
 
 __all__ = [
     "AnalysisConfiguration",
+    "ChannelStatistics",
     "HEROWINDAdapter",
     "OffshoreProject",
     "OpenFASTAdapter",
@@ -29,8 +35,10 @@ __all__ = [
     "SolverCapability",
     "SolverInformation",
     "SolverResult",
+    "StatisticsResult",
     "TurbineInformation",
     "__version__",
+    "compute_statistics",
     "load_project",
     "save_project",
 ]

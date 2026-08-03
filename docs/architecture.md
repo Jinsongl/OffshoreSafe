@@ -348,6 +348,10 @@ output and solver execution remain outside this adapter boundary.
 reuses the canonical engineering channel vocabulary. Both integrations remain
 inside OffshoreSafe; neither introduces engineering dependencies into UQRA.
 
+The post-processing layer consumes `SolverResult` without solver-specific
+branches. Issue #060 produces immutable per-channel statistics and carries
+source hashes and adapter metadata into the derived result.
+
 ------------------------------------------------------------------------
 
 ## 6.1 Project Definition Boundary

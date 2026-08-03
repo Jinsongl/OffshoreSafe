@@ -338,6 +338,19 @@ OpenFAST or introduce an OpenFAST dependency into UQRA.
 and comma-header text results. Shared HEROWIND/OpenFAST channel names therefore
 produce identical canonical names for downstream post-processing.
 
+Engineering channel statistics consume that common result contract:
+
+``` python
+from offshoresafe import compute_statistics
+
+statistics = compute_statistics(result, ddof=0)
+maximum = statistics["tower_base_fore_aft_moment"].maximum
+rms = statistics["tower_base_fore_aft_moment"].rms
+```
+
+The immutable result exposes count, mean, standard deviation, minimum, maximum,
+RMS, and unit for each selected channel while preserving source traceability.
+
 Example:
 
 ``` python

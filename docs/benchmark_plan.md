@@ -462,6 +462,8 @@ input and ASCII output fixture, known channel mapping, units, metadata, and
 tower-base moment.
 `offshore/herowind_adapter` validates Issue #053 against the verified HEROWIND
 comma-header/whitespace-data convention, including units and unified channels.
+`offshore/statistics` validates Issue #060 mean, population standard deviation,
+minimum, maximum, and RMS against a five-point analytical sequence.
 
 ------------------------------------------------------------------------
 
