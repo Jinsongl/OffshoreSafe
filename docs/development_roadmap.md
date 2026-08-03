@@ -241,6 +241,8 @@ Progress:
 
 -   [x] Versioned `project.yaml` definition, strict validation, and path
     resolution (Issue #050).
+-   [x] Unified `SolverAdapter` contract, normalized time-series result,
+    channel mapping, export semantics, and compatibility benchmark (Issue #051).
 
 Support:
 

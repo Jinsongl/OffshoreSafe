@@ -316,13 +316,11 @@ All simulation programs shall follow the same interface.
 
         read_input()
 
-        run()
-
         read_output()
 
-        map_channels()
+        map_channel()
 
-        export_results()
+        export_result()
 
 Supported:
 
@@ -335,6 +333,11 @@ Supported:
     OrcaFlex
 
 Generic CSV
+
+The Issue #051 contract normalizes solver output as an immutable
+`SolverResult` containing time, canonical channels, units, and metadata.
+Capability detection is available without loading a solver SDK. Execution is a
+separate orchestration concern and may be added by concrete integrations.
 
 ------------------------------------------------------------------------
 

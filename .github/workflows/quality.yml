@@ -33,6 +33,7 @@ jobs:
           python benchmarks/mathematical/core_probability/run.py
           python benchmarks/mathematical/ishigami/run.py
           python benchmarks/mathematical/reliability_engine/run.py
+          python benchmarks/offshore/solver_adapter_interface/run.py
 
   openturns:
     runs-on: ubuntu-latest

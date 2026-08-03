@@ -75,3 +75,5 @@ Optional backend installation, capability, and NumPy compatibility constraints
 are maintained in `docs/plugin_compatibility.md`.
 The versioned OffshoreSafe YAML schema is documented in
 `docs/project_definition.md`.
+The external solver normalization contract is documented in
+`docs/solver_adapter.md`.

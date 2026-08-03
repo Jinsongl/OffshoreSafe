@@ -301,6 +301,24 @@ solver, and analysis information. Unknown fields, unsupported schema versions,
 invalid IDs, duplicate analysis IDs, and missing referenced files are rejected.
 Resolved file paths are absolute in memory and portable when serialized.
 
+Issue #051 adds the solver integration contract:
+
+``` python
+from offshoresafe import SolverAdapter, SolverCapability, SolverResult
+
+result = SolverResult(
+    time=[0.0, 0.1],
+    channels={"tower_base_moment": [100.0, 101.0]},
+    units={"tower_base_moment": "kN m"},
+    metadata={"adapter": "example"},
+)
+```
+
+Concrete adapters implement `read_input()`, `read_output()`, and
+`export_result()`; `map_channel()` provides canonical naming. `supports()`
+performs capability detection. The normalized result validates time and channel
+shape and does not expose mutable parser buffers.
+
 Example:
 
 ``` python

@@ -11,12 +11,16 @@ from offshoresafe.project import (
     load_project,
     save_project,
 )
+from offshoresafe.solver import SolverAdapter, SolverCapability, SolverResult
 
 __all__ = [
     "AnalysisConfiguration",
     "OffshoreProject",
     "ProjectInformation",
+    "SolverAdapter",
+    "SolverCapability",
     "SolverInformation",
+    "SolverResult",
     "TurbineInformation",
     "__version__",
     "load_project",

@@ -454,6 +454,10 @@ variance against analytical values.
 `mathematical/salib_backend` validates Issue #044 using analytical Ishigami
 Sobol indices and fixed-seed Morris ranking/reproducibility.
 
+`offshore/solver_adapter_interface` validates the Issue #051 normalized
+time-series contract independently of any external engineering solver. Concrete
+solver formats are covered by their own adapter benchmarks in subsequent issues.
+
 ------------------------------------------------------------------------
 
 # 8. benchmarks Development Priority
