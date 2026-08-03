@@ -1,6 +1,6 @@
 """Offshore engineering workflows built on UQRA."""
 
-__version__ = "0.1.0a1.dev0"
+__version__ = "0.1.0"
 
 from offshoresafe.analysis import EngineeringAnalysisResult, EngineeringAnalysisWorkflow
 from offshoresafe.metocean import (

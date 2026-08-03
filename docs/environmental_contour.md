@@ -37,21 +37,23 @@ directions; the implementation normalizes them before applying the radius.
 ``` python
 from offshoresafe import MetoceanModel
 
-model = MetoceanModel.from_config({
-    "variables": {
-        "significant_wave_height": {
-            "distribution": "Weibull",
-            "parameters": {"scale": 3.0, "shape": 2.0},
-            "unit": "m",
+model = MetoceanModel.from_config(
+    {
+        "variables": {
+            "significant_wave_height": {
+                "distribution": "Weibull",
+                "parameters": {"scale": 3.0, "shape": 2.0},
+                "unit": "m",
+            },
+            "peak_period": {
+                "distribution": "Lognormal",
+                "parameters": {"mean": 9.0, "std": 1.2},
+                "unit": "s",
+            },
         },
-        "peak_period": {
-            "distribution": "Lognormal",
-            "parameters": {"mean": 9.0, "std": 1.2},
-            "unit": "s",
-        },
-    },
-    "correlation_matrix": [[1.0, 0.35], [0.35, 1.0]],
-})
+        "correlation_matrix": [[1.0, 0.35], [0.35, 1.0]],
+    }
+)
 contour = model.iform_contour(50.0, events_per_period=365.25, n_points=72)
 ```
 

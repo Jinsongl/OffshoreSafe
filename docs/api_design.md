@@ -24,9 +24,7 @@ Example:
 
 ``` python
 wind = RandomVariable(
-    name="Vhub",
-    distribution="Weibull",
-    parameters={"scale":10.5, "shape":2.1}
+    name="Vhub", distribution="Weibull", parameters={"scale": 10.5, "shape": 2.1}
 )
 ```
 
@@ -66,10 +64,7 @@ moments. `random_state` accepts an integer seed or a NumPy generator.
 ## Random Vector
 
 ``` python
-vector = RandomVector(
-    variables=[wind, wave_height],
-    correlation_matrix=R
-)
+vector = RandomVector(variables=[wind, wave_height], correlation_matrix=R)
 ```
 
 Supports:
@@ -113,7 +108,7 @@ distributions and transformations map these points to physical variables.
 sampler = MonteCarloSampler(dimension=3)
 result = sampler.sample(n_samples=1024, random_state=42)
 
-result.samples   # shape: (1024, 3)
+result.samples  # shape: (1024, 3)
 result.metadata  # method, n_samples, dimension, method-specific details
 ```
 
@@ -158,15 +153,9 @@ safe; zero and negative values are failure.
 # 4. Reliability API
 
 ``` python
-problem = ReliabilityProblem(
-    variables=random_vector,
-    limit_state=g
-)
+problem = ReliabilityProblem(variables=random_vector, limit_state=g)
 
-result = problem.solve(
-    method="FORM",
-    backend="OpenTURNS"
-)
+result = problem.solve(method="FORM", backend="OpenTURNS")
 ```
 
 Methods:
@@ -508,21 +497,23 @@ generator produces a two-dimensional closed contour; callers may supply unit
 directions for higher-dimensional surfaces.
 
 ``` python
-model = MetoceanModel.from_config({
-    "variables": {
-        "significant_wave_height": {
-            "distribution": "Weibull",
-            "parameters": {"scale": 3.0, "shape": 2.0},
-            "unit": "m",
+model = MetoceanModel.from_config(
+    {
+        "variables": {
+            "significant_wave_height": {
+                "distribution": "Weibull",
+                "parameters": {"scale": 3.0, "shape": 2.0},
+                "unit": "m",
+            },
+            "peak_period": {
+                "distribution": "Lognormal",
+                "parameters": {"mean": 9.0, "std": 1.2},
+                "unit": "s",
+            },
         },
-        "peak_period": {
-            "distribution": "Lognormal",
-            "parameters": {"mean": 9.0, "std": 1.2},
-            "unit": "s",
-        },
-    },
-    "correlation_matrix": [[1.0, 0.35], [0.35, 1.0]],
-})
+        "correlation_matrix": [[1.0, 0.35], [0.35, 1.0]],
+    }
+)
 contour = model.iform_contour(
     return_period=50.0,
     events_per_period=365.25,

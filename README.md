@@ -23,8 +23,12 @@ python -c "import uqra; print(uqra.__version__)"
 python -c "import offshoresafe; print(offshoresafe.__version__)"
 ```
 
-The latest tagged prerelease is `v0.1.0a1`. Development after that tag uses
-version `0.1.0a2.dev0`.
+The repository contains UQRA `0.1.0a2.dev0` and the frozen OffshoreSafe MVP
+`0.1.0`. Install the report extra to reproduce all four reference cases:
+
+``` powershell
+python -m pip install -e "packages/offshoresafe[reports]"
+```
 
 ## Public API example
 
@@ -36,10 +40,12 @@ from uqra import (
     RandomVector,
 )
 
-variables = RandomVector([
-    RandomVariable("R", "Normal", {"mean": 100.0, "std": 10.0}),
-    RandomVariable("S", "Normal", {"mean": 60.0, "std": 10.0}),
-])
+variables = RandomVector(
+    [
+        RandomVariable("R", "Normal", {"mean": 100.0, "std": 10.0}),
+        RandomVariable("S", "Normal", {"mean": 60.0, "std": 10.0}),
+    ]
+)
 limit_state = LimitStateFunction(lambda x: x[0] - x[1])
 result = FORM(variables, limit_state).solve()
 
@@ -56,8 +62,8 @@ Run the complete unit suite and quality checks from the repository root:
 
 ``` powershell
 python -m pytest -q
-ruff check packages tests benchmarks
-ruff format --check packages tests benchmarks
+ruff check .
+ruff format --check .
 ```
 
 Run the deterministic Level 0 benchmarks with:
@@ -67,6 +73,18 @@ python benchmarks/mathematical/core_probability/run.py
 python benchmarks/mathematical/ishigami/run.py
 python benchmarks/mathematical/reliability_engine/run.py
 ```
+
+Run the four OffshoreSafe MVP acceptance paths with:
+
+``` powershell
+python benchmarks/offshore/engineering_report/run.py
+python benchmarks/offshore/environmental_contour/run.py
+```
+
+These commands verify tower, blade-fatigue, floating-platform, and Hs-Tp IFORM
+environmental-contour results, then generate template v1.1 reports and
+traceability manifests in `output/`. See `docs/mvp_release.md` for release
+acceptance, known limitations, and deferred scope.
 
 Benchmark definitions, reference values, and tolerances are documented under
 `benchmarks/mathematical/` and in `docs/benchmark_plan.md`.

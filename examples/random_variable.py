@@ -2,7 +2,6 @@
 
 from uqra import RandomVariable
 
-
 elastic_modulus = RandomVariable(
     name="E",
     distribution="Normal",

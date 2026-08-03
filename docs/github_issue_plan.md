@@ -152,11 +152,7 @@ Properties:
 Example:
 
 ``` python
-X = RandomVariable(
-    "E",
-    "Normal",
-    {"mean":210e9,"std":10e9}
-)
+X = RandomVariable("E", "Normal", {"mean": 210e9, "std": 10e9})
 ```
 
 Tests:

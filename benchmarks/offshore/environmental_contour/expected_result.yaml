@@ -1,0 +1,7 @@
+failure_probability: 5.4757015742642025e-05
+reliability_index: 3.8684841993526886
+first_point:
+  significant_wave_height: 9.276538184146425
+  peak_period: 9.774106560744151
+tolerances:
+  relative: 1.0e-10

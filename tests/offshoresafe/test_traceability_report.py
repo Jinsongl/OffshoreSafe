@@ -19,7 +19,9 @@ HASH_A = "a" * 64
 HASH_B = "b" * 64
 
 
-def _result(*, context: dict[str, str | None] | None = None) -> EngineeringAnalysisResult:
+def _result(
+    *, context: dict[str, str | None] | None = None
+) -> EngineeringAnalysisResult:
     return EngineeringAnalysisResult(
         project_id="floating-demo",
         analysis_id="mooring-reliability",
@@ -105,13 +107,17 @@ def test_report_rejects_wrong_extensions(tmp_path: Path) -> None:
         report.to_excel(tmp_path / "report.xls")
 
 
-def test_pdf_is_reopenable_when_optional_dependency_is_installed(tmp_path: Path) -> None:
+def test_pdf_is_reopenable_when_optional_dependency_is_installed(
+    tmp_path: Path,
+) -> None:
     pytest.importorskip("reportlab")
     pypdf = pytest.importorskip("pypdf")
     target = EngineeringReport(_result()).to_pdf(tmp_path / "report.pdf")
     reader = pypdf.PdfReader(target)
     assert len(reader.pages) == 6
-    assert "floating-demo" in "".join(page.extract_text() or "" for page in reader.pages)
+    assert "floating-demo" in "".join(
+        page.extract_text() or "" for page in reader.pages
+    )
 
 
 def test_explicit_criteria_drive_report_status_and_template_version() -> None:
@@ -154,10 +160,16 @@ def test_file_audit_and_standalone_manifest_export(tmp_path: Path) -> None:
     trace["project_source_file"] = str(project)
     trace["project_source_file_hash"] = hashlib.sha256(project.read_bytes()).hexdigest()
     trace["solver_input"]["source_file"] = str(solver_input)
-    trace["solver_input"]["input_file_hash"] = hashlib.sha256(solver_input.read_bytes()).hexdigest()
+    trace["solver_input"]["input_file_hash"] = hashlib.sha256(
+        solver_input.read_bytes()
+    ).hexdigest()
     trace["solver_output"]["source_file"] = str(solver_output)
-    trace["solver_output"]["output_file_hash"] = hashlib.sha256(solver_output.read_bytes()).hexdigest()
-    manifest = TraceabilityManifest.from_result(EngineeringAnalysisResult.from_dict(data))
+    trace["solver_output"]["output_file_hash"] = hashlib.sha256(
+        solver_output.read_bytes()
+    ).hexdigest()
+    manifest = TraceabilityManifest.from_result(
+        EngineeringAnalysisResult.from_dict(data)
+    )
 
     assert manifest.verify_files().verified
     target = manifest.export(tmp_path / "result.manifest.json")

@@ -235,6 +235,15 @@ Goal:
 
 Build offshore engineering workflow.
 
+Release status:
+
+-   [x] Public API and engineering result schema `1.0` frozen for MVP.
+-   [x] Engineering report template `1.1` frozen for MVP.
+-   [x] Four release acceptance paths completed: tower, blade fatigue,
+    floating platform, and environmental contour.
+-   [x] OffshoreSafe `0.1.0` release documentation completed.
+-   [x] MVP scope closed; only severe defect fixes follow this release.
+
 ## M3.1 Solver Integration
 
 Progress:
@@ -247,7 +256,7 @@ Progress:
     output metadata extraction, and fixture benchmark (Issue #052).
 -   [x] HEROWIND comma-header/whitespace-data result reader and unified channel
     mapping with traceability metadata (Issue #053).
--   [ ] Bladed PRJ and result-channel adapter deferred by project decision
+-   [ ] Bladed PRJ and result-channel adapter deferred to post-MVP
     (Issue #054).
 
 Support:
@@ -256,6 +265,9 @@ Support:
 -   OpenFAST;
 -   Bladed;
 -   OrcaFlex.
+
+MVP solver support is limited to the implemented OpenFAST and HEROWIND
+readers. Bladed and OrcaFlex are post-MVP candidates, not release requirements.
 
 Functions:
 

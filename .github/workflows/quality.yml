@@ -22,9 +22,9 @@ jobs:
           python -m pip install -e ".[dev]"
           python -m pip install -e packages/offshoresafe
       - name: Lint
-        run: ruff check packages tests benchmarks
+        run: ruff check .
       - name: Check formatting
-        run: ruff format --check packages tests benchmarks
+        run: ruff format --check .
       - name: Test
         run: python -m pytest -q
       - name: Run mathematical benchmarks
@@ -37,6 +37,11 @@ jobs:
           python benchmarks/offshore/openfast_adapter/run.py
           python benchmarks/offshore/herowind_adapter/run.py
           python benchmarks/offshore/statistics/run.py
+      - name: Run OffshoreSafe MVP acceptance
+        run: |
+          python -m pip install -e "packages/offshoresafe[reports]"
+          python benchmarks/offshore/engineering_report/run.py
+          python benchmarks/offshore/environmental_contour/run.py
 
   openturns:
     runs-on: ubuntu-latest

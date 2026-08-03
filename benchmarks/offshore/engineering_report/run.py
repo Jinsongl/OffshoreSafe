@@ -58,6 +58,8 @@ def main() -> None:
             raise RuntimeError(f"{name} report acceptance failed")
         if not report.manifest.validate().complete:
             raise RuntimeError(f"{name} traceability manifest is incomplete")
+        if not report.manifest.verify_files().verified:
+            raise RuntimeError(f"{name} source-file audit failed")
         artifacts = {
             "markdown": report.to_markdown(OUTPUT / "reports" / f"{name}.md"),
             "excel": report.to_excel(OUTPUT / "spreadsheets" / f"{name}.xlsx"),

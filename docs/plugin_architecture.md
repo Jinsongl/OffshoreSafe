@@ -53,10 +53,7 @@ The user should not depend on a specific backend.
 Example:
 
 ``` python
-result = uqra.reliability.solve(
-    method="FORM",
-    backend="OpenTURNS"
-)
+result = uqra.reliability.solve(method="FORM", backend="OpenTURNS")
 ```
 
 ------------------------------------------------------------------------
@@ -78,12 +75,12 @@ Interface:
 ``` python
 from uqra import ReliabilityBackend
 
+
 class ExampleBackend(ReliabilityBackend):
     name = "example"
     capabilities = frozenset(...)
 
-    def solve_reliability(self, problem, method, **options):
-        ...
+    def solve_reliability(self, problem, method, **options): ...
 ```
 
 Candidates:
@@ -151,6 +148,7 @@ Issue #043 adds the minimal runtime contract:
 ``` python
 class SurrogateBackend(Backend):
     def fit_surrogate(self, model, variables, method, **options): ...
+
 
 result = get_backend("chaospy").fit_surrogate(model, variables, "PCE", order=3)
 prediction = result.predict(samples)

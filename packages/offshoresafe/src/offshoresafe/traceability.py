@@ -175,7 +175,9 @@ class TraceabilityManifest:
             "result_hash": self.result_hash,
         }
         invalid = tuple(
-            name for name, value in hashes.items() if value and not _SHA256.fullmatch(value)
+            name
+            for name, value in hashes.items()
+            if value and not _SHA256.fullmatch(value)
         )
         warnings = tuple(
             f"{name} is not available"
@@ -189,7 +191,9 @@ class TraceabilityManifest:
             )
             if not value
         )
-        return TraceabilityValidation(not missing and not invalid, missing, invalid, warnings)
+        return TraceabilityValidation(
+            not missing and not invalid, missing, invalid, warnings
+        )
 
     def verify_files(self) -> TraceabilityAudit:
         """Re-hash recorded project, solver input, and solver output files."""
