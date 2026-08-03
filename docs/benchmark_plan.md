@@ -451,6 +451,8 @@ Latin hypercube strata.
 `mathematical/chaospy_backend` validates Issue #043 using exact quadratic PCE
 recovery through both quadrature and regression, plus Ishigami mean and
 variance against analytical values.
+`mathematical/salib_backend` validates Issue #044 using analytical Ishigami
+Sobol indices and fixed-seed Morris ranking/reproducibility.
 
 ------------------------------------------------------------------------
 

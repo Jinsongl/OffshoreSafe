@@ -1,0 +1,11 @@
+ishigami:
+  base_samples: 4096
+  seed: 42
+  first_order: [0.313905, 0.442411, 0.0]
+  total_order: [0.557589, 0.442411, 0.243684]
+  absolute_tolerance: 0.025
+morris:
+  trajectories: 64
+  levels: 8
+  seed: 17
+  ranking: [dominant, secondary, minor]

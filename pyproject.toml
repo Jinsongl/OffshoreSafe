@@ -26,6 +26,7 @@ chaospy = [
     "numpoly>=1.3.9,<1.4",
     "numpy>=2.0,<2.3",
 ]
+salib = ["SALib>=1.5.2,<1.6"]
 
 [tool.setuptools]
 package-dir = { "" = "packages/uqra/src" }
@@ -43,6 +44,7 @@ markers = [
     "openturns: requires the optional OpenTURNS backend",
     "uqpy: requires the optional UQpy backend",
     "chaospy: requires the optional Chaospy backend",
+    "salib: requires the optional SALib backend",
 ]
 
 [tool.ruff]

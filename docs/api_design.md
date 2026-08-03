@@ -258,6 +258,31 @@ Chaospy adapter supports `fit="quadrature"` and `fit="regression"` for
 independent Normal, Lognormal, Weibull, and Uniform variables. Install it with
 `python -m pip install -e ".[chaospy]"`.
 
+SALib uses the existing sensitivity contract:
+
+``` python
+backend = get_backend("salib")
+sobol = backend.analyze_sensitivity(
+    model,
+    "Sobol",
+    variables=random_vector,
+    n_samples=4096,
+    random_state=42,
+)
+morris = backend.analyze_sensitivity(
+    model,
+    "Morris",
+    variables=random_vector,
+    n_samples=64,
+    random_state=42,
+)
+```
+
+Sobol results expose `S1`, `S1_conf`, `ST`, `ST_conf`, and optional `S2` /
+`S2_conf`. Morris results expose `mu`, `mu_star`, `sigma`, `mu_star_conf`, and
+a descending variable `ranking`. Both are normalized as `SensitivityResult`.
+Install the optional backend with `python -m pip install -e ".[salib]"`.
+
 ------------------------------------------------------------------------
 
 # 5. OffshoreSafe API

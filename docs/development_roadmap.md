@@ -202,6 +202,7 @@ Progress:
 -   [x] Optional UQpy distribution, sampling, FORM, and SORM adapter (Issue #042).
 -   [x] Minimal surrogate backend/result contract and optional Chaospy PCE adapter
     (Issue #043).
+-   [x] Optional SALib Sobol and Morris sensitivity adapter (Issue #044).
 
 Deliverables:
 
@@ -216,6 +217,9 @@ Deliverables:
 -   `SurrogateBackend` and `SurrogateResult`, Chaospy distribution conversion,
     polynomial-chaos fitting/prediction/statistics, benchmarks, tests, documentation,
     and isolated CI validation.
+-   SALib problem conversion, Sobol indices, Morris screening, normalized
+    sensitivity results, Ishigami validation, ranking tests, documentation,
+    benchmarks, and isolated CI validation.
 
 ------------------------------------------------------------------------
 

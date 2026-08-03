@@ -31,6 +31,7 @@ from uqra.backends.openturns import (
     to_openturns_joint_distribution,
 )
 from uqra.backends.registry import BackendRegistry
+from uqra.backends.salib import SALibBackend, salib_available, to_salib_problem
 from uqra.backends.uqpy import (
     UQpyBackend,
     to_uqpy_distribution,
@@ -43,6 +44,7 @@ backend_registry.register(NativeBackend(), aliases=("uqra",))
 backend_registry.register(OpenTURNSBackend())
 backend_registry.register(UQpyBackend())
 backend_registry.register(ChaospyBackend())
+backend_registry.register(SALibBackend())
 
 
 def get_backend(name: str) -> Backend:
@@ -63,6 +65,7 @@ __all__ = [
     "NativeBackend",
     "OpenTURNSBackend",
     "ReliabilityBackend",
+    "SALibBackend",
     "SamplingBackend",
     "SensitivityBackend",
     "SensitivityResult",
@@ -79,10 +82,12 @@ __all__ = [
     "normalize_sensitivity_result",
     "normalize_surrogate_result",
     "openturns_available",
+    "salib_available",
     "to_chaospy_distribution",
     "to_chaospy_joint_distribution",
     "to_openturns_distribution",
     "to_openturns_joint_distribution",
+    "to_salib_problem",
     "to_uqpy_distribution",
     "to_uqpy_distributions",
     "uqpy_available",

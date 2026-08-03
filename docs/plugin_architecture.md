@@ -123,6 +123,12 @@ Candidate:
 
 -   SALib
 
+Issue #044 registers `SALibBackend` under `salib`. Its first-stage contract
+accepts independent Uniform `RandomVector` inputs (or an explicit SALib problem
+mapping), evaluates scalar models, and returns normalized `SensitivityResult`
+objects for Sobol indices and Morris elementary effects. Metadata records the
+SALib version, algorithm, base sample count, and actual model evaluations.
+
 ------------------------------------------------------------------------
 
 ## 3.4 Surrogate Backend

@@ -40,7 +40,13 @@ def test_native_backend_is_discoverable_by_primary_name_and_alias() -> None:
     native = get_backend("native")
 
     assert native is get_backend("uqra")
-    assert available_backends() == ("chaospy", "native", "openturns", "uqpy")
+    assert available_backends() == (
+        "chaospy",
+        "native",
+        "openturns",
+        "salib",
+        "uqpy",
+    )
     assert native.supports(Capability.RELIABILITY_FORM)
     assert native.supports("sampling.sobol")
     assert not native.supports(Capability.SENSITIVITY_SOBOL)
@@ -175,7 +181,8 @@ def test_importing_uqra_does_not_import_optional_backends() -> None:
             "import sys, uqra; "
             "assert 'openturns' not in sys.modules; "
             "assert 'UQpy' not in sys.modules; "
-            "assert 'chaospy' not in sys.modules",
+            "assert 'chaospy' not in sys.modules; "
+            "assert 'SALib' not in sys.modules",
         ],
         cwd=source_root,
         env=environment,
@@ -217,3 +224,14 @@ def test_chaospy_missing_dependency_has_actionable_error(monkeypatch: object) ->
     monkeypatch.setattr(adapter, "import_module", missing)  # type: ignore[attr-defined]
     with pytest.raises(RuntimeError, match=r"\[chaospy\]"):
         adapter.ChaospyBackend().fit_surrogate(lambda x: x[0], object())
+
+
+def test_salib_missing_dependency_has_actionable_error(monkeypatch: object) -> None:
+    import uqra.backends.salib as adapter
+
+    def missing(name: str) -> None:
+        raise ModuleNotFoundError(name="SALib")
+
+    monkeypatch.setattr(adapter, "import_module", missing)  # type: ignore[attr-defined]
+    with pytest.raises(RuntimeError, match=r"\[salib\]"):
+        adapter.SALibBackend().analyze_sensitivity(lambda x: x[0], "Sobol")

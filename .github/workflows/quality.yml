@@ -81,3 +81,20 @@ jobs:
         run: python -m pytest -q -m chaospy
       - name: Run Chaospy benchmark
         run: python benchmarks/mathematical/chaospy_backend/run.py
+
+  salib:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install optional SALib backend
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev,salib]"
+      - name: Test SALib adapter
+        env:
+          UQRA_TEST_SALIB: "1"
+        run: python -m pytest -q -m salib
+      - name: Run SALib benchmark
+        run: python benchmarks/mathematical/salib_backend/run.py
