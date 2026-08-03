@@ -22,7 +22,10 @@ from offshoresafe.postprocessing import (
 )
 from offshoresafe.project import AnalysisConfiguration, OffshoreProject
 from offshoresafe.solver import HEROWINDAdapter, OpenFASTAdapter, SolverAdapter
-from offshoresafe.structural import analyze_tower_reliability
+from offshoresafe.structural import (
+    analyze_blade_fatigue_reliability,
+    analyze_tower_reliability,
+)
 
 _RESULT_FIELDS = {
     "schema_version",
@@ -323,6 +326,14 @@ class EngineeringAnalysisWorkflow:
 
         if analysis_type == "tower_reliability":
             return analyze_tower_reliability(
+                solver_result,
+                analysis.settings,
+                method=analysis.method,
+                backend=analysis.backend,
+            )
+
+        if analysis_type == "blade_fatigue_reliability":
+            return analyze_blade_fatigue_reliability(
                 solver_result,
                 analysis.settings,
                 method=analysis.method,

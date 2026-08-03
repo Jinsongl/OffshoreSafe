@@ -476,6 +476,9 @@ input and output hashes.
 OpenFAST tower-base moment into an OffshoreSafe bending limit state, solving it
 with native UQRA FORM, and comparing the reliability index with an analytical
 first-order linearization and a fixed design-point reference.
+`offshore/blade_fatigue_reliability` validates Issue #071 by rainflow-counting a
+normalized OpenFAST blade-root moment, checking analytical Miner damage, and
+solving uncertain load/S-N parameters against a fixed native FORM reference.
 
 ------------------------------------------------------------------------
 

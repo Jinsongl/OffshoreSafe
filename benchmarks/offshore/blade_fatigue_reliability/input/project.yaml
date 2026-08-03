@@ -1,0 +1,33 @@
+schema_version: "1.0"
+project:
+  project_id: blade-fatigue-benchmark
+  name: Blade fatigue reliability benchmark
+turbine:
+  turbine_id: reference-15mw
+  model: Reference 15 MW
+  rated_power_mw: 15.0
+  definition_file: turbine.yaml
+solver:
+  solver_id: openfast-blade
+  adapter: openfast
+  input_file: ../../openfast_adapter/input/main.fst
+  output_file: blade.out
+analyses:
+  - analysis_id: blade-fatigue-form
+    analysis_type: blade_fatigue_reliability
+    method: FORM
+    backend: native
+    settings:
+      channel: blade_1_root_flap_moment
+      lifetime_repetitions: 50.0
+      damage_limit: 1.0
+      variables:
+        load_factor:
+          distribution: Lognormal
+          parameters: {mean: 1.0, std: 0.05}
+        sn_slope:
+          distribution: Normal
+          parameters: {mean: 3.0, std: 0.1}
+        sn_log10_intercept:
+          distribution: Normal
+          parameters: {mean: 6.0, std: 0.1}

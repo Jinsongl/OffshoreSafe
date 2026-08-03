@@ -45,18 +45,18 @@ The plan is designed for:
 | 1.1 Plugin Architecture | Complete | Native, OpenTURNS, UQpy, Chaospy, and SALib backends |
 | 2.0 OffshoreSafe MVP: solver integration | Partially complete | Project schema, solver contract, OpenFAST ASCII, and HEROWIND text adapters; Bladed deferred |
 | 2.1 Engineering Post Processing | Complete | Statistics, extremes, rainflow, Miner damage, S-N curves, DEL, and the configured analysis workflow |
-| 2.2 Offshore Reliability | Partially complete | Tower-base bending reliability complete; blade-fatigue and floating-platform workflows planned |
+| 2.2 Offshore Reliability | Partially complete | Tower-base bending and blade-fatigue reliability complete; floating-platform workflow planned |
 | 3.0 Environmental Contour | Planned | Metocean model and IFORM contour |
 | 4.0 Reporting and Traceability | Planned | End-to-end provenance and engineering reports |
 
 Current verification baseline:
 
--   145 tests pass in the `offshoresafe-dev` Python 3.11 environment.
+-   151 tests pass in the `offshoresafe-dev` Python 3.11 environment.
 -   37 optional-backend tests are skipped when their third-party packages are
     not installed.
 -   Ruff lint and format checks pass.
--   The tower-reliability, engineering-workflow, extreme-response, and fatigue
-    benchmarks pass.
+-   The blade-fatigue-reliability, tower-reliability, engineering-workflow,
+    extreme-response, and fatigue benchmarks pass.
 
 The architectural boundary remains intact: OffshoreSafe depends on UQRA, while
 UQRA contains no offshore engineering or solver-specific imports.
@@ -75,7 +75,8 @@ UQRA contains no offshore engineering or solver-specific imports.
 | #060--#063 | Complete | Engineering statistics, extremes, rainflow, fatigue damage, and DEL |
 | #064 | Complete in `15e4c44` | End-to-end engineering analysis orchestration, result provenance, and deterministic JSON |
 | #070 | Complete | Tower-base bending reliability through normalized solver results and UQRA FORM/Monte Carlo |
-| #071--#072 | Planned | Blade-fatigue and floating-platform reliability workflows |
+| #071 | Complete | Blade-root fatigue reliability using rainflow, uncertain load/S-N parameters, and UQRA FORM/Monte Carlo |
+| #072 | Planned | Floating-platform reliability workflow |
 | #080--#081 | Planned | Metocean probability model and IFORM contour |
 | #090--#091 | Planned | Cross-workflow traceability and report generation |
 
@@ -588,6 +589,8 @@ Limitations:
 
 ## Issue #071 Blade Fatigue Reliability
 
+Status: **Complete**.
+
 Workflow:
 
     Wind uncertainty
@@ -603,6 +606,26 @@ Workflow:
     ↓
 
     Reliability
+
+Implemented scope:
+
+-   normalized blade-root load channel and ASTM-style rainflow cycles;
+-   lifetime cycle-block repetition and configurable damage limit;
+-   positive Lognormal load multiplier plus uncertain Normal S-N slope and
+    log10 intercept;
+-   optional correlation matrix and UQRA solver options;
+-   native FORM and Monte Carlo through the existing reliability API;
+-   Issue #064 result provenance, design points, sensitivity, convergence, and
+    backend metadata;
+-   analytical Miner damage and fixed FORM benchmark.
+
+Limitations:
+
+-   lifetime occurrence is configured rather than inferred;
+-   mean-stress, thickness, environmental degradation, partial-factor, and
+    code-specific corrections are not implicit;
+-   uniform load scaling and a single-slope S-N/Miner model are deliberate
+    verification assumptions.
 
 ------------------------------------------------------------------------
 
@@ -691,8 +714,9 @@ Advanced features:
 ## Product and workflow gaps
 
 -   Issue #064 provides the application-level result envelope and persistence
-    contract. Issue #070 now connects tower bending reliability to that envelope;
-    blade-fatigue and floating-platform reliability remain unimplemented.
+    contract. Issues #070 and #071 connect tower bending and blade fatigue
+    reliability to that envelope; floating-platform reliability remains
+    unimplemented.
 -   OpenFAST support currently reads primary input metadata and ASCII output
     only. Binary output and solver execution are outside the adapter contract.
 -   HEROWIND support is limited to the verified YAML input and
@@ -713,8 +737,11 @@ Advanced features:
     correction, thickness correction, safety factor, or code-specific design
     rule.
 -   The tower model currently covers a single tower-base bending limit state.
-    Blade, floating-platform, mooring, buckling, shell-interaction, and combined
-    tower limit states are not implemented.
+    Floating-platform, mooring, buckling, shell-interaction, and combined tower
+    limit states are not implemented.
+-   Blade fatigue currently uses uniform stochastic scaling of one rainflow block
+    and a single-slope S-N/Miner model; richer wind, turbulence, mean-stress, and
+    code-specific effects are not implemented.
 
 ## Development and verification constraints
 
@@ -763,14 +790,13 @@ The implementation is covered by unit, configured OpenFAST workflow, native
 FORM, native Monte Carlo, traceability, and analytical-reference benchmark
 checks.
 
-## Priority 1 --- Issue #071 Blade Fatigue Reliability
+## Completed Priority --- Issue #071 Blade Fatigue Reliability
 
-Build the next vertical slice by combining the existing rainflow/Miner/DEL
-pipeline with uncertain S-N capacity and UQRA reliability solving. Define the
-fatigue limit state, uncertainty contract, cycle-block assumptions, and a small
-analytical reference before implementation.
+The second structural vertical slice now combines the rainflow/Miner pipeline
+with uncertain load and S-N parameters, UQRA FORM/Monte Carlo, Issue #064
+provenance, and an analytical-damage/fixed-FORM benchmark.
 
-## Priority 2 --- Harden Engineering Post-processing
+## Parallel Follow-up --- Harden Engineering Post-processing
 
 Open focused follow-up issues only where application requirements justify them:
 
@@ -779,18 +805,22 @@ Open focused follow-up issues only where application requirements justify them:
 -   uncertainty or goodness-of-fit diagnostics for extreme distributions;
 -   additional solver adapters, prioritized by available verified fixtures.
 
-These enhancements should not block Issue #070 unless its acceptance fixtures
-demonstrate a concrete need.
+These enhancements should not block the active metocean/floating-platform path
+unless its acceptance fixtures demonstrate a concrete need.
 
-## Priority 3 --- Issues #072, #080, and #081
+## Priority 1 --- Issues #080 and #081 Metocean and Environmental Contour
 
-Proceed in this order after the blade-fatigue vertical slice:
+Implement the domain-level wind, wave, and current probability model followed
+by IFORM environmental contours. These become reusable inputs for the more
+complex floating-platform workflow.
 
-1.  Metocean random model and IFORM contour, providing reusable environmental
-    inputs.
-2.  Floating-platform reliability, which depends on the broader metocean and
+## Priority 2 --- Issue #072 Floating Platform Reliability
+
+Proceed after the metocean and contour contracts stabilize:
+
+1.  Floating-platform reliability, which depends on the broader metocean and
     solver-integration surface.
-3.  Reporting and full traceability consolidation after at least two structural
+2.  Reporting and full traceability consolidation after the structural
     workflows produce stable result schemas.
 
 ------------------------------------------------------------------------
@@ -808,8 +838,7 @@ Completed foundation:
 
 Active critical path:
 
-    Issue #071 blade fatigue reliability
-        -> Issues #080/#081 metocean and environmental contour
+    Issues #080/#081 metocean and environmental contour
         -> Issue #072 floating-platform reliability
         -> Issues #090/#091 reporting and traceability
 

@@ -456,6 +456,44 @@ model to UQRA. Its traceable result payload contains `pf`, `beta`, convergence,
 design point, sensitivity, reference load, design factors, variable definitions,
 and backend metadata.
 
+Issue #071 reuses the normalized load and rainflow contracts for blade fatigue
+reliability. For rainflow cycles `(n_i, S_i)`, the lifetime damage model is
+
+``` text
+D(X) = B * sum(n_i * (L * S_i)^m) / 10^a
+g(X) = D_limit - D(X)
+```
+
+where `L` is a stochastic load multiplier, `m` is the stochastic S-N slope,
+`a` is the stochastic base-10 S-N intercept, and `B` scales the simulated cycle
+block to the assessed lifetime. OffshoreSafe performs cycle counting and damage
+modeling; UQRA receives the resulting limit-state callable and random vector.
+
+``` yaml
+- analysis_id: blade-fatigue-form
+  analysis_type: blade_fatigue_reliability
+  method: FORM
+  backend: native
+  settings:
+    channel: blade_1_root_flap_moment
+    lifetime_repetitions: 50.0
+    damage_limit: 1.0
+    variables:
+      load_factor:
+        distribution: Lognormal
+        parameters: {mean: 1.0, std: 0.05}
+      sn_slope:
+        distribution: Normal
+        parameters: {mean: 3.0, std: 0.1}
+      sn_log10_intercept:
+        distribution: Normal
+        parameters: {mean: 6.0, std: 0.1}
+```
+
+The traceable payload contains rainflow cycles, reference damage evaluated at
+the variable means, lifetime scaling, damage limit, `pf`, `beta`, design points,
+sensitivity, convergence, and backend metadata.
+
 Implemented workflow adapters:
 
 -   HEROWIND

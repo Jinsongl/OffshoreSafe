@@ -10,3 +10,5 @@ statistics, extreme-response, and fatigue analyses and emits immutable,
 traceable JSON-ready results.
 The first structural vertical slice adds tower-base bending reliability through
 the same result contract and UQRA reliability backends.
+Blade fatigue reliability reuses the rainflow result with uncertain load and
+S-N parameters through the same UQRA boundary.

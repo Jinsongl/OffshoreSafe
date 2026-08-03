@@ -62,12 +62,15 @@ Supported analysis settings:
 | `extreme` | required `channel` and `return_period`; optional `direction`, `threshold`, `min_distance`, `distribution`, and `events_per_period` |
 | `fatigue` | required `channel`, `slope`, `log10_intercept`, and `equivalent_cycles`; optional `endurance_limit` |
 | `tower_reliability` | required `channel` and material/geometry/load `variables`; optional load statistic, correlation, design factors, and UQRA `solver_options` |
+| `blade_fatigue_reliability` | required `channel`, `lifetime_repetitions`, and load/S-N `variables`; optional damage limit, correlation, and UQRA `solver_options` |
 
 Unknown analysis types and settings fail explicitly. Solver-specific parsing
 remains in adapters; the post-processing functions consume only normalized
 `SolverResult` objects.
 The tower reliability method is documented separately in
 `docs/tower_reliability.md`.
+Blade fatigue reliability is documented in
+`docs/blade_fatigue_reliability.md`.
 
 Verification:
 
