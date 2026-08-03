@@ -319,6 +319,21 @@ Concrete adapters implement `read_input()`, `read_output()`, and
 performs capability detection. The normalized result validates time and channel
 shape and does not expose mutable parser buffers.
 
+OpenFAST ASCII results use the same contract:
+
+``` python
+from offshoresafe import OpenFASTAdapter
+
+adapter = OpenFASTAdapter()
+input_metadata = adapter.read_input("main.fst")
+result = adapter.read_output("main.out")
+adapter.export_result(result, "build/main.normalized.json")
+```
+
+The adapter records OpenFAST version, source paths and SHA-256 hashes, original
+channel names, normalized units, and canonical channel names. It does not invoke
+OpenFAST or introduce an OpenFAST dependency into UQRA.
+
 Example:
 
 ``` python

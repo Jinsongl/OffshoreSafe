@@ -339,6 +339,11 @@ The Issue #051 contract normalizes solver output as an immutable
 Capability detection is available without loading a solver SDK. Execution is a
 separate orchestration concern and may be added by concrete integrations.
 
+`OpenFASTAdapter` is the first concrete implementation. It reads primary input
+metadata and ASCII output tables directly, maps common load and motion channels,
+and attaches file hashes and solver version to the normalized result. Binary
+output and solver execution remain outside this adapter boundary.
+
 ------------------------------------------------------------------------
 
 ## 6.1 Project Definition Boundary

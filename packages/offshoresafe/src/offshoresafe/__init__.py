@@ -11,11 +11,17 @@ from offshoresafe.project import (
     load_project,
     save_project,
 )
-from offshoresafe.solver import SolverAdapter, SolverCapability, SolverResult
+from offshoresafe.solver import (
+    OpenFASTAdapter,
+    SolverAdapter,
+    SolverCapability,
+    SolverResult,
+)
 
 __all__ = [
     "AnalysisConfiguration",
     "OffshoreProject",
+    "OpenFASTAdapter",
     "ProjectInformation",
     "SolverAdapter",
     "SolverCapability",

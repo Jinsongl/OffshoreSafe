@@ -77,3 +77,5 @@ The versioned OffshoreSafe YAML schema is documented in
 `docs/project_definition.md`.
 The external solver normalization contract is documented in
 `docs/solver_adapter.md`.
+OpenFAST ASCII input/output integration is documented in
+`docs/openfast_adapter.md`.

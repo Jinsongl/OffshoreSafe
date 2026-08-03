@@ -243,6 +243,8 @@ Progress:
     resolution (Issue #050).
 -   [x] Unified `SolverAdapter` contract, normalized time-series result,
     channel mapping, export semantics, and compatibility benchmark (Issue #051).
+-   [x] OpenFAST ASCII time-series reader, canonical channel mapping, input and
+    output metadata extraction, and fixture benchmark (Issue #052).
 
 Support:
 

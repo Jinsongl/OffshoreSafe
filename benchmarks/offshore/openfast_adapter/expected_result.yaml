@@ -1,0 +1,9 @@
+solver_version: "3.5.3"
+sample_count: 3
+channels:
+  - wind_speed
+  - rotor_speed
+  - generator_power
+  - tower_base_fore_aft_moment
+  - platform_pitch
+final_tower_base_fore_aft_moment: 22000.0

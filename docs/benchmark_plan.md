@@ -457,6 +457,9 @@ Sobol indices and fixed-seed Morris ranking/reproducibility.
 `offshore/solver_adapter_interface` validates the Issue #051 normalized
 time-series contract independently of any external engineering solver. Concrete
 solver formats are covered by their own adapter benchmarks in subsequent issues.
+`offshore/openfast_adapter` validates Issue #052 with a deterministic primary
+input and ASCII output fixture, known channel mapping, units, metadata, and
+tower-base moment.
 
 ------------------------------------------------------------------------
 

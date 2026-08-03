@@ -40,6 +40,10 @@ features. The interface does not import their Python SDKs or encode their file
 formats. Solver execution is likewise outside the minimal Issue #051 parsing
 and normalization contract.
 
+Issue #052 implements the first concrete integration, `OpenFASTAdapter`, for
+primary input metadata and ASCII output. See `openfast_adapter.md` for its
+format boundary and canonical channel set.
+
 ## Verification
 
 Run the contract tests and compatibility benchmark from the repository root:

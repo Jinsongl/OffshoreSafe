@@ -1,0 +1,7 @@
+OpenFAST v3.5.3
+Minimal deterministic adapter output
+Time  Wind1VelX  RotSpeed  GenPwr  TwrBsMyt  PtfmPitch
+(s)   (m/s)      (rpm)     (kW)    (kN-m)    (deg)
+0.0   10.0       8.0       1000.0  20000.0   0.0
+0.5   10.5       8.2       1050.0  21000.0   0.1
+1.0   11.0       8.4       1100.0  22000.0   0.2
