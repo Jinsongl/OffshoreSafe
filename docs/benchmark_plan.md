@@ -468,6 +468,10 @@ minimum, maximum, and RMS against a five-point analytical sequence.
 return-level calculation against SciPy's analytical quantile evaluation.
 `offshore/fatigue` validates Issues #062 and #063 using a constant-amplitude
 history with analytical rainflow count, Miner damage, and DEL.
+`offshore/engineering_workflow` validates Issue #064 by loading a versioned
+project, normalizing an OpenFAST ASCII result, executing statistics, extreme,
+and fatigue analyses, checking fixed reference results, and retaining both
+input and output hashes.
 
 ------------------------------------------------------------------------
 

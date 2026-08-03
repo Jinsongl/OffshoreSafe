@@ -49,7 +49,17 @@ def load_project(path: str | Path, *, check_paths: bool = True) -> OffshoreProje
                 source.parent,
                 "solver.input_file",
                 check_paths,
-            )
+            ),
+            "output_file": (
+                _resolve_file(
+                    project.solver.output_file,
+                    source.parent,
+                    "solver.output_file",
+                    check_paths,
+                )
+                if project.solver.output_file is not None
+                else None
+            ),
         }
     )
     return project.model_copy(
@@ -75,6 +85,12 @@ def save_project(project: OffshoreProject, path: str | Path) -> Path:
         project.turbine.definition_file, target.parent
     )
     data["solver"]["input_file"] = _relative(project.solver.input_file, target.parent)
+    if project.solver.output_file is not None:
+        data["solver"]["output_file"] = _relative(
+            project.solver.output_file, target.parent
+        )
+    else:
+        data["solver"].pop("output_file", None)
     target.write_text(
         yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8"
     )

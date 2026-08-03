@@ -1,5 +1,17 @@
 # GitHub Issue Plan
 
+Last reviewed: 2026-08-03
+
+Last completed commit at review start: `c5f3fe6` (`feat(offshoresafe): add extreme and fatigue analysis`)
+
+Status legend:
+
+-   **Complete**: implementation, public API, tests, benchmark, and documentation
+    are present unless noted otherwise.
+-   **Planned**: approved scope has not been implemented.
+-   **Deferred**: intentionally postponed and not part of the immediate critical
+    path.
+
 ## 1. Purpose
 
 This document converts the development roadmap into GitHub Milestones
@@ -19,6 +31,50 @@ The plan is designed for:
 -   GitHub issue management;
 -   Codex-assisted development;
 -   incremental software delivery.
+
+## 1.1 Current Delivery Snapshot
+
+| Milestone | Status | Delivered |
+| --- | --- | --- |
+| 0.1 Repository Foundation | Complete | Packaging, versioning, pytest, Ruff, and CI |
+| 0.2 UQRA Core Data Model | Complete | Random variables, distributions, random vectors, and correlation handling |
+| 0.3 Sampling Engine | Complete | Monte Carlo, Latin hypercube, and Sobol sampling |
+| 0.4 Reliability Engine | Complete | Limit states, Monte Carlo reliability, FORM, and SORM |
+| 1.0 UQRA Alpha | Complete | `v0.1.0a1` release candidate and stable Alpha public API |
+| 1.1 Plugin Architecture | Complete | Native, OpenTURNS, UQpy, Chaospy, and SALib backends |
+| 2.0 OffshoreSafe MVP: solver integration | Partially complete | Project schema, solver contract, OpenFAST ASCII, and HEROWIND text adapters; Bladed deferred |
+| 2.1 Engineering Post Processing | Complete | Statistics, extremes, rainflow, Miner damage, S-N curves, DEL, and the configured analysis workflow |
+| 2.2 Offshore Reliability | Planned | Tower, blade-fatigue, and floating-platform reliability workflows |
+| 3.0 Environmental Contour | Planned | Metocean model and IFORM contour |
+| 4.0 Reporting and Traceability | Planned | End-to-end provenance and engineering reports |
+
+Current verification baseline:
+
+-   139 tests pass in the `offshoresafe-dev` Python 3.11 environment.
+-   37 optional-backend tests are skipped when their third-party packages are
+    not installed.
+-   Ruff lint and format checks pass.
+-   The engineering-workflow, extreme-response, and fatigue benchmarks pass.
+
+The architectural boundary remains intact: OffshoreSafe depends on UQRA, while
+UQRA contains no offshore engineering or solver-specific imports.
+
+## 1.2 Issue Status Index
+
+| Issues | Status | Evidence summary |
+| --- | --- | --- |
+| #001--#003 | Complete | Repository layout, package manifests, tests, and CI workflows |
+| #010--#012 | Complete | `uqra.core` implementation and probability-model tests |
+| #020--#022 | Complete | Sampling implementations, statistical tests, and Ishigami benchmark |
+| #030--#033 | Complete | Native reliability solvers and R-S/Four Branch/SORM benchmarks |
+| #040--#044 | Complete | Backend contracts, adapters, compatibility matrix, and isolated optional tests |
+| #050--#053 | Complete | OffshoreSafe project schema, solver result contract, OpenFAST, and HEROWIND adapters |
+| #054 | Deferred | Bladed PRJ and result formats postponed by project decision |
+| #060--#063 | Complete | Engineering statistics, extremes, rainflow, fatigue damage, and DEL |
+| #064 | Complete in current working tree | End-to-end engineering analysis orchestration, result provenance, and deterministic JSON |
+| #070--#072 | Planned | Structural reliability application workflows |
+| #080--#081 | Planned | Metocean probability model and IFORM contour |
+| #090--#091 | Planned | Cross-workflow traceability and report generation |
 
 ------------------------------------------------------------------------
 
@@ -365,6 +421,8 @@ Support:
 
 ## Issue #054 Bladed Adapter
 
+Status: **Deferred** by project decision.
+
 Support:
 
 -   PRJ files;
@@ -375,6 +433,8 @@ Support:
 # Milestone 2.1 --- Engineering Post Processing
 
 ## Issue #060 Statistics
+
+Status: **Complete** in commit `608ba94`.
 
 Implement:
 
@@ -388,6 +448,8 @@ Implement:
 
 ## Issue #061 Extreme Response
 
+Status: **Complete** in commit `c5f3fe6`.
+
 Implement:
 
 -   peak extraction;
@@ -398,6 +460,8 @@ Implement:
 
 ## Issue #062 Rainflow Counting
 
+Status: **Complete** in commit `c5f3fe6`.
+
 Implement:
 
 -   cycle counting;
@@ -407,11 +471,64 @@ Implement:
 
 ## Issue #063 DEL Calculation
 
+Status: **Complete** in commit `c5f3fe6`.
+
 Support:
 
 -   S-N curves;
 -   Miner rule;
 -   damage equivalent load.
+
+------------------------------------------------------------------------
+
+## Issue #064 Engineering Analysis Workflow
+
+Status: **Complete in the current working tree**.
+
+Objective:
+
+Connect the completed OffshoreSafe project, solver-result, and post-processing
+APIs into one traceable application workflow without moving engineering logic
+into UQRA.
+
+Implement:
+
+-   select an analysis from `project.yaml`;
+-   select the configured solver adapter explicitly;
+-   load a normalized `SolverResult`;
+-   execute statistics, extreme-response, or fatigue analysis from configuration;
+-   produce a common immutable engineering-analysis result envelope;
+-   preserve project ID, analysis ID, solver metadata, source hashes, processing
+    parameters, software version, and timestamp;
+-   serialize results to a documented JSON representation.
+
+API decision required before implementation:
+
+-   define the analysis configuration fields and result envelope in
+    `docs/api_design.md`;
+-   keep orchestration in OffshoreSafe and reuse UQRA only for mathematical
+    probability and reliability operations.
+
+Tests:
+
+-   one end-to-end OpenFAST fixture flow;
+-   one end-to-end HEROWIND fixture flow;
+-   configuration validation and unsupported-analysis errors;
+-   traceability-field preservation;
+-   deterministic serialization round trip.
+
+Benchmark:
+
+Run a small normalized time-series fixture through statistics, extremes, and
+fatigue, checking fixed reference outputs and provenance.
+
+Acceptance:
+
+-   no solver-specific branch exists inside post-processing functions;
+-   the same analysis configuration works with normalized OpenFAST and HEROWIND
+    results;
+-   all outputs contain the required provenance fields;
+-   API documentation, tests, benchmark, and roadmap are updated.
 
 ------------------------------------------------------------------------
 
@@ -542,19 +659,128 @@ Advanced features:
 
 ------------------------------------------------------------------------
 
+# Known Problems and Constraints
+
+## Product and workflow gaps
+
+-   Issue #064 now provides the application-level result envelope and persistence
+    contract for configured statistics, extreme, and fatigue analyses. Structural
+    reliability analyses are not yet connected to that envelope.
+-   OpenFAST support currently reads primary input metadata and ASCII output
+    only. Binary output and solver execution are outside the adapter contract.
+-   HEROWIND support is limited to the verified YAML input and
+    comma-header/whitespace-data result convention.
+-   Bladed integration is deferred; OrcaFlex and generic CSV adapters have not
+    yet been assigned implementation issues.
+-   The workflow has a built-in adapter registry for OpenFAST and HEROWIND.
+    Third-party adapter discovery is not yet part of the application layer.
+
+## Engineering-method limitations
+
+-   Extreme-value fitting currently supports Gumbel maxima and positive
+    two-parameter Weibull models. Independence, stationarity, event definition,
+    and model suitability remain caller responsibilities.
+-   Peak separation is expressed in sample indices rather than physical time.
+-   Fatigue processing provides ASTM-style rainflow counting, a power-law S-N
+    curve, Miner accumulation, and DEL. It does not apply an implicit mean-stress
+    correction, thickness correction, safety factor, or code-specific design
+    rule.
+-   Structural limit states for towers, blades, floating platforms, and mooring
+    systems are not implemented.
+
+## Development and verification constraints
+
+-   Optional-backend tests require separate compatible environments. A base
+    development environment legitimately skips those tests, while isolated CI
+    jobs provide backend validation.
+-   Chaospy and UQpy have constrained dependency/NumPy compatibility ranges;
+    `docs/plugin_compatibility.md` is the source of truth.
+-   On the current Windows sandbox, `conda activate offshoresafe-dev` may not
+    modify the active shell. Verification should use the environment's Python
+    executable or `conda run -n offshoresafe-dev <command>`.
+-   The test cache may emit a permission warning when `.pytest_cache` is owned by
+    another Windows identity. This does not change test outcomes, but the warning
+    should not be mistaken for a product failure.
+
+------------------------------------------------------------------------
+
+# Next-Step Plan
+
+## Completed Priority --- Issue #064 Engineering Analysis Workflow
+
+The application-level path is now implemented:
+
+    versioned OffshoreSafe project configuration
+        -> solver adapter
+        -> normalized SolverResult
+        -> statistics / extremes / fatigue
+        -> traceable serialized engineering result
+
+The workflow is covered by OpenFAST and HEROWIND end-to-end tests and a fixed
+OpenFAST benchmark. It is the reusable foundation for structural reliability
+and reporting.
+
+## Priority 1 --- Issue #070 Tower Reliability Vertical Slice
+
+After Issue #064 is accepted, implement the first complete structural
+reliability application:
+
+-   define a tower limit-state contract in OffshoreSafe;
+-   map normalized tower-load channels to the limit-state inputs;
+-   describe material, geometry, and load uncertainty with UQRA objects;
+-   run Monte Carlo and FORM through the existing UQRA API;
+-   preserve the engineering-analysis provenance from Issue #064;
+-   validate against a small analytical or published tower/beam reference case.
+
+Tower reliability is preferred over blade fatigue and floating-platform
+reliability because it offers the smallest first vertical slice while exercising
+the OffshoreSafe-to-UQRA dependency direction.
+
+## Priority 2 --- Harden Engineering Post-processing
+
+Open focused follow-up issues only where application requirements justify them:
+
+-   physical-time peak separation and event-rate estimation;
+-   mean-stress and code-specific fatigue corrections;
+-   uncertainty or goodness-of-fit diagnostics for extreme distributions;
+-   additional solver adapters, prioritized by available verified fixtures.
+
+These enhancements should not block Issue #070 unless its acceptance fixtures
+demonstrate a concrete need.
+
+## Priority 3 --- Issues #071, #072, #080, and #081
+
+Proceed in this order after the tower vertical slice:
+
+1.  Blade fatigue reliability, reusing the established fatigue and reliability
+    result contracts.
+2.  Metocean random model and IFORM contour, providing reusable environmental
+    inputs.
+3.  Floating-platform reliability, which depends on the broader metocean and
+    solver-integration surface.
+4.  Reporting and full traceability consolidation after at least two structural
+    workflows produce stable result schemas.
+
+------------------------------------------------------------------------
+
 # Recommended Development Order
 
-    1. UQRA Core
+Completed foundation:
 
-    2. Reliability Algorithms
+    UQRA core
+        -> reliability algorithms
+        -> benchmark suite
+        -> plugin integration
+        -> OffshoreSafe solver normalization
+        -> engineering post-processing
 
-    3. Benchmark Suite
+Active critical path:
 
-    4. Plugin Integration
-
-    5. OffshoreSafe Workflow
-
-    6. Offshore Engineering Applications
+    Issue #070 tower reliability
+        -> Issue #071 blade fatigue reliability
+        -> Issues #080/#081 metocean and environmental contour
+        -> Issue #072 floating-platform reliability
+        -> Issues #090/#091 reporting and traceability
 
 Core principle:
 

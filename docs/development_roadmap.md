@@ -275,6 +275,9 @@ Progress:
     (Issue #061).
 -   [x] Rainflow cycle counting and Miner fatigue damage (Issue #062).
 -   [x] S-N curves and damage-equivalent-load calculation (Issue #063).
+-   [x] Versioned project-to-solver-to-post-processing workflow with a common
+    traceable engineering result and deterministic JSON serialization
+    (Issue #064).
 
 Functions:
 

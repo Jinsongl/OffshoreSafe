@@ -81,3 +81,5 @@ OpenFAST ASCII input/output integration is documented in
 `docs/openfast_adapter.md`.
 HEROWIND text-result integration is documented in `docs/herowind_adapter.md`.
 Engineering channel statistics are documented in `docs/statistics.md`.
+The configured statistics, extreme-response, and fatigue workflow is documented
+in `docs/engineering_postprocessing.md`.

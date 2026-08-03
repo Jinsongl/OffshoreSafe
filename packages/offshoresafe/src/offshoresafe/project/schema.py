@@ -40,6 +40,7 @@ class SolverInformation(StrictModel):
     solver_id: str = Field(pattern=IDENTIFIER_PATTERN)
     adapter: str = Field(min_length=1)
     input_file: Path
+    output_file: Path | None = None
     executable: str | None = None
     settings: dict[str, Any] = Field(default_factory=dict)
 

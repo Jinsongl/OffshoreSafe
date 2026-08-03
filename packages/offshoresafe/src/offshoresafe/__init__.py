@@ -2,6 +2,7 @@
 
 __version__ = "0.1.0a1.dev0"
 
+from offshoresafe.analysis import EngineeringAnalysisResult, EngineeringAnalysisWorkflow
 from offshoresafe.postprocessing import (
     ChannelStatistics,
     ExtremeValueFit,
@@ -40,6 +41,8 @@ from offshoresafe.solver import (
 __all__ = [
     "AnalysisConfiguration",
     "ChannelStatistics",
+    "EngineeringAnalysisResult",
+    "EngineeringAnalysisWorkflow",
     "ExtremeValueFit",
     "FatigueDamageResult",
     "HEROWINDAdapter",

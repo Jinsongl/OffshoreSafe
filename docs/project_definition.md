@@ -25,13 +25,19 @@ The required root fields are:
 | `schema_version` | Configuration contract; currently exactly `"1.0"` |
 | `project` | Stable project ID, name, description, and organization |
 | `turbine` | Turbine ID, model, rated power, and definition file |
-| `solver` | Solver ID, adapter name, input file, executable, and settings |
+| `solver` | Solver ID, adapter name, input file, optional output file, executable, and settings |
 | `analyses` | One or more uniquely identified analysis configurations |
 
 Unknown fields are rejected at every level. Identifiers begin with a letter
 and contain only letters, digits, `_`, `-`, or `.`. Rated power must be
 positive, analysis IDs must be unique, and required referenced files must exist
 unless path checking is explicitly disabled.
+
+`solver.output_file` is optional so a reusable project definition can accept a
+result path at run time. When present, it is resolved and validated like
+`solver.input_file`. Issue #064 currently executes engineering analyses whose
+`analysis_type` is `statistics`, `extreme`, or `fatigue`; method-specific
+arguments are stored in the analysis `settings` mapping.
 
 See `examples/projects/minimal/project.yaml` for a complete copyable example.
 
@@ -43,6 +49,7 @@ from offshoresafe import OffshoreProject
 project = OffshoreProject.load("examples/projects/minimal/project.yaml")
 print(project.project.project_id)
 print(project.solver.input_file)
+print(project.solver.output_file)
 
 project.save("build/project-copy.yaml")
 ```

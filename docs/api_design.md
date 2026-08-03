@@ -382,26 +382,48 @@ Each rainflow cycle contains range, mean, and count (half or full cycle).
 inclusive endurance limit. Miner damage sums `count / N`; DEL preserves the
 same range-power damage over the requested equivalent cycle count.
 
-Example:
+Issue #064 connects these components through an OffshoreSafe application-layer
+workflow. A project may declare an optional normalized result source on its
+solver configuration:
 
-``` python
-project = OffshoreProject("IEA15MW.yaml")
-
-project.load_results(
-    solver="OpenFAST"
-)
-
-project.extreme_analysis()
-
-project.fatigue_analysis()
-
-project.reliability()
+``` yaml
+solver:
+  solver_id: openfast-primary
+  adapter: openfast
+  input_file: model/main.fst
+  output_file: results/main.out
 ```
 
-Supported solvers:
+The output file may instead be supplied explicitly at run time. Explicit input
+does not mutate the immutable project definition.
+
+``` python
+from offshoresafe import EngineeringAnalysisWorkflow, OffshoreProject
+
+project = OffshoreProject.load("project.yaml")
+workflow = EngineeringAnalysisWorkflow(project)
+result = workflow.run("tower-extreme")
+workflow.export_result(result, "build/tower-extreme.json")
+```
+
+Supported engineering `analysis_type` values are `statistics`, `extreme`, and
+`fatigue`. Their settings reuse the existing post-processing arguments. The
+workflow selects the configured OpenFAST or HEROWIND adapter, reads input and
+output traceability, and emits an immutable `EngineeringAnalysisResult` with
+project, analysis, solver, software-version, timestamp, source-hash, processing
+parameter, and result payload fields. JSON export is deterministic for an
+existing result object and round-trips through `EngineeringAnalysisResult.load()`.
+
+This orchestration belongs to OffshoreSafe. UQRA does not import the project,
+solver, or engineering-result contracts.
+
+Implemented workflow adapters:
 
 -   HEROWIND
 -   OpenFAST
+
+Planned or deferred adapters:
+
 -   Bladed
 -   OrcaFlex
 

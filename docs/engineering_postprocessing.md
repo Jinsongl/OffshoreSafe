@@ -32,11 +32,47 @@ correction before constructing cycles for damage evaluation.
 `calculate_del()` computes
 `(sum(n_i S_i^m) / N_eq)^(1/m)`. Load units follow the input ranges.
 
+## Configured engineering workflow
+
+`EngineeringAnalysisWorkflow` connects a loaded `OffshoreProject` to the
+configured OpenFAST or HEROWIND adapter and then to one selected analysis. The
+solver output may be declared as `solver.output_file` or supplied explicitly to
+`run()`.
+
+``` python
+from offshoresafe import EngineeringAnalysisWorkflow, OffshoreProject
+
+project = OffshoreProject.load("path/to/project.yaml")
+workflow = EngineeringAnalysisWorkflow(project)
+result = workflow.run("tower-extreme")
+workflow.export_result(result, "build/tower-extreme.json")
+```
+
+The immutable result records project, analysis, solver, adapter, OffshoreSafe
+version, UTC timestamp, processing parameters, input/output metadata and hashes,
+and the analysis payload. `EngineeringAnalysisResult.load()` restores an
+exported JSON result. Export uses stable key ordering, so repeated exports of
+the same result object are byte-identical.
+
+Supported settings:
+
+| Analysis type | Settings |
+| --- | --- |
+| `statistics` | optional `channels`, optional `ddof` |
+| `extreme` | required `channel` and `return_period`; optional `direction`, `threshold`, `min_distance`, `distribution`, and `events_per_period` |
+| `fatigue` | required `channel`, `slope`, `log10_intercept`, and `equivalent_cycles`; optional `endurance_limit` |
+
+Unknown analysis types and settings fail explicitly. Solver-specific parsing
+remains in adapters; the post-processing functions consume only normalized
+`SolverResult` objects.
+
 Verification:
 
 ```console
 python -m pytest -q tests/offshoresafe/test_extreme.py
 python -m pytest -q tests/offshoresafe/test_fatigue.py
+python -m pytest -q tests/offshoresafe/test_engineering_workflow.py
 python benchmarks/offshore/extreme_response/run.py
 python benchmarks/offshore/fatigue/run.py
+python benchmarks/offshore/engineering_workflow/run.py
 ```
