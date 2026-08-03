@@ -43,7 +43,10 @@ jobs:
           python-version: "3.11"
           cache: pip
       - name: Install optional OpenTURNS backend
-        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev,openturns]"
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,openturns]"
+          python -m pip install -e packages/offshoresafe
       - name: Test OpenTURNS adapter
         env:
           UQRA_TEST_OPENTURNS: "1"
@@ -60,7 +63,10 @@ jobs:
           python-version: "3.11"
           cache: pip
       - name: Install optional UQpy backend
-        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev,uqpy]"
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,uqpy]"
+          python -m pip install -e packages/offshoresafe
       - name: Test UQpy adapter
         env:
           UQRA_TEST_UQPY: "1"
@@ -77,7 +83,10 @@ jobs:
           python-version: "3.11"
           cache: pip
       - name: Install optional Chaospy backend
-        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev,chaospy]"
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,chaospy]"
+          python -m pip install -e packages/offshoresafe
       - name: Test Chaospy adapter
         env:
           UQRA_TEST_CHAOSPY: "1"
@@ -94,7 +103,10 @@ jobs:
           python-version: "3.11"
           cache: pip
       - name: Install optional SALib backend
-        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev,salib]"
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,salib]"
+          python -m pip install -e packages/offshoresafe
       - name: Test SALib adapter
         env:
           UQRA_TEST_SALIB: "1"
