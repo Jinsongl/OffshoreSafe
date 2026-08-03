@@ -464,6 +464,10 @@ tower-base moment.
 comma-header/whitespace-data convention, including units and unified channels.
 `offshore/statistics` validates Issue #060 mean, population standard deviation,
 minimum, maximum, and RMS against a five-point analytical sequence.
+`offshore/extreme_response` validates Issue #061 peak extraction and a Gumbel
+return-level calculation against SciPy's analytical quantile evaluation.
+`offshore/fatigue` validates Issues #062 and #063 using a constant-amplitude
+history with analytical rainflow count, Miner damage, and DEL.
 
 ------------------------------------------------------------------------
 

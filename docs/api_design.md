@@ -351,6 +351,37 @@ rms = statistics["tower_base_fore_aft_moment"].rms
 The immutable result exposes count, mean, standard deviation, minimum, maximum,
 RMS, and unit for each selected channel while preserving source traceability.
 
+Extreme-response processing uses the same normalized result:
+
+``` python
+peaks = extract_peaks(result, "tower_base_fore_aft_moment", threshold=1000.0)
+fitted = fit_extreme_distribution(peaks, distribution="gumbel")
+response_50_year = return_period_response(
+    fitted, return_period=50.0, events_per_period=365.25
+)
+```
+
+`extract_peaks()` supports maxima, minima, and absolute-magnitude peaks plus a
+minimum sample separation. `fit_extreme_distribution()` supports Gumbel maxima
+and positive two-parameter Weibull distributions. The return-period API uses
+the non-exceedance probability `1 - 1 / (return_period * events_per_period)`.
+Peak and fitted results are immutable and preserve units and source metadata.
+
+Fatigue post-processing exposes ASTM E1049 rainflow cycles and explicit S-N /
+Miner calculations:
+
+``` python
+cycles = count_rainflow(load_history)
+curve = SNCurve(slope=3.0, log10_intercept=12.0)
+damage = calculate_fatigue_damage(cycles, curve).damage
+del_value = calculate_del(cycles, slope=3.0, equivalent_cycles=1.0e7)
+```
+
+Each rainflow cycle contains range, mean, and count (half or full cycle).
+`SNCurve` uses `N = 10**log10_intercept / range**slope` and may define an
+inclusive endurance limit. Miner damage sums `count / N`; DEL preserves the
+same range-power damage over the requested equivalent cycle count.
+
 Example:
 
 ``` python

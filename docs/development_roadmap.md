@@ -271,6 +271,10 @@ Progress:
 
 -   [x] Immutable per-channel mean, standard deviation, maximum, minimum, and
     RMS statistics over normalized solver results (Issue #060).
+-   [x] Peak extraction, extreme-value fitting, and return-period response
+    (Issue #061).
+-   [x] Rainflow cycle counting and Miner fatigue damage (Issue #062).
+-   [x] S-N curves and damage-equivalent-load calculation (Issue #063).
 
 Functions:
 
