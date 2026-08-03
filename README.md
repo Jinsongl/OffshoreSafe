@@ -68,3 +68,6 @@ python benchmarks/mathematical/reliability_engine/run.py
 
 Benchmark definitions, reference values, and tolerances are documented under
 `benchmarks/mathematical/` and in `docs/benchmark_plan.md`.
+
+Optional backend installation, capability, and NumPy compatibility constraints
+are maintained in `docs/plugin_compatibility.md`.

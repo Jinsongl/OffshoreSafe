@@ -203,6 +203,8 @@ Progress:
 -   [x] Minimal surrogate backend/result contract and optional Chaospy PCE adapter
     (Issue #043).
 -   [x] Optional SALib Sobol and Morris sensitivity adapter (Issue #044).
+-   [x] Plugin installation and compatibility matrix, isolated optional jobs,
+    and Milestone 1.1 release review.
 
 Deliverables:
 
