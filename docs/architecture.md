@@ -344,6 +344,10 @@ metadata and ASCII output tables directly, maps common load and motion channels,
 and attaches file hashes and solver version to the normalized result. Binary
 output and solver execution remain outside this adapter boundary.
 
+`HEROWINDAdapter` reads the verified HEROWIND comma-header text convention and
+reuses the canonical engineering channel vocabulary. Both integrations remain
+inside OffshoreSafe; neither introduces engineering dependencies into UQRA.
+
 ------------------------------------------------------------------------
 
 ## 6.1 Project Definition Boundary

@@ -245,6 +245,8 @@ Progress:
     channel mapping, export semantics, and compatibility benchmark (Issue #051).
 -   [x] OpenFAST ASCII time-series reader, canonical channel mapping, input and
     output metadata extraction, and fixture benchmark (Issue #052).
+-   [x] HEROWIND comma-header/whitespace-data result reader and unified channel
+    mapping with traceability metadata (Issue #053).
 
 Support:
 

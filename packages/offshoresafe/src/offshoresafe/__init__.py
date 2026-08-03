@@ -12,6 +12,7 @@ from offshoresafe.project import (
     save_project,
 )
 from offshoresafe.solver import (
+    HEROWINDAdapter,
     OpenFASTAdapter,
     SolverAdapter,
     SolverCapability,
@@ -20,6 +21,7 @@ from offshoresafe.solver import (
 
 __all__ = [
     "AnalysisConfiguration",
+    "HEROWINDAdapter",
     "OffshoreProject",
     "OpenFASTAdapter",
     "ProjectInformation",

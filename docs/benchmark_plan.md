@@ -460,6 +460,8 @@ solver formats are covered by their own adapter benchmarks in subsequent issues.
 `offshore/openfast_adapter` validates Issue #052 with a deterministic primary
 input and ASCII output fixture, known channel mapping, units, metadata, and
 tower-base moment.
+`offshore/herowind_adapter` validates Issue #053 against the verified HEROWIND
+comma-header/whitespace-data convention, including units and unified channels.
 
 ------------------------------------------------------------------------
 

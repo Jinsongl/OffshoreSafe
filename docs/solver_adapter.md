@@ -44,6 +44,9 @@ Issue #052 implements the first concrete integration, `OpenFASTAdapter`, for
 primary input metadata and ASCII output. See `openfast_adapter.md` for its
 format boundary and canonical channel set.
 
+Issue #053 adds `HEROWINDAdapter` with the same canonical channel vocabulary;
+see `herowind_adapter.md`.
+
 ## Verification
 
 Run the contract tests and compatibility benchmark from the repository root:

@@ -334,6 +334,10 @@ The adapter records OpenFAST version, source paths and SHA-256 hashes, original
 channel names, normalized units, and canonical channel names. It does not invoke
 OpenFAST or introduce an OpenFAST dependency into UQRA.
 
+`HEROWINDAdapter` applies the same normalized contract to HEROWIND YAML input
+and comma-header text results. Shared HEROWIND/OpenFAST channel names therefore
+produce identical canonical names for downstream post-processing.
+
 Example:
 
 ``` python
