@@ -446,6 +446,18 @@ Markdown, Excel, or PDF. Reporting remains in OffshoreSafe because document
 structure and engineering terminology are application concerns; UQRA has no
 reporting dependency.
 
+Certification-facing report templates are explicitly versioned. Engineering
+status is derived only from project-supplied criteria (for example a minimum
+reliability index) or limits already present in the result; OffshoreSafe does
+not silently invent a code threshold. Reports include a risk summary and
+prepared/reviewed/approved placeholders while retaining the raw normalized
+result.
+
+Traceability audits re-hash the recorded project, solver input, and solver
+output files at review time. Runtime provenance records the selected algorithm
+backend, Python/platform identity, UQRA version, and OffshoreSafe version. A
+standalone deterministic manifest JSON can accompany every report bundle.
+
 ------------------------------------------------------------------------
 
 # 9. Recommended Development Order

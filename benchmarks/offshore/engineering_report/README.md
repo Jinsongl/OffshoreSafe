@@ -1,9 +1,10 @@
 # Unified traceability and engineering report benchmark
 
-This Issue #090/#091 benchmark loads the existing project-to-solver engineering
-workflow result, attaches case/sample context, verifies the normalized
-traceability manifest, and exports Markdown, Excel, and PDF reports from the
-same result object.
+This benchmark runs the tower, blade-fatigue, and floating-platform vertical
+cases through the project-to-solver workflow. Each case applies an explicit
+benchmark reliability target, verifies the normalized traceability manifest
+and current source-file hashes, and exports Markdown, Excel, PDF, and standalone
+manifest JSON artifacts from the same result object.
 
 Run from the repository root with the report extra installed:
 
@@ -12,4 +13,4 @@ python benchmarks/offshore/engineering_report/run.py
 ```
 
 Artifacts are written to the format-specific `output/reports/`,
-`output/spreadsheets/`, and `output/pdf/` directories.
+`output/spreadsheets/`, `output/pdf/`, and `output/manifests/` directories.

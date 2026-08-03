@@ -282,6 +282,12 @@ Progress:
     completeness validation, and case/sample context (Issue #090).
 -   [x] Consistent Markdown, Excel, and PDF engineering reports generated from
     the common engineering result and traceability manifest (Issue #091).
+-   [x] Tower, blade-fatigue, and floating-platform report acceptance paths with
+    explicit project criteria and stable benchmark outputs.
+-   [x] Versioned certification-facing template metadata, engineering status,
+    risk summary, units/limits, and approval placeholders.
+-   [x] Current-file hash re-verification, runtime/backend provenance, and
+    standalone traceability manifest export.
 
 Functions:
 

@@ -121,6 +121,9 @@ def test_same_configured_analyses_run_over_normalized_solver_results(
     assert statistics.adapter == adapter
     assert statistics.traceability["solver_input"]["input_file_hash"]
     assert statistics.traceability["solver_output"]["output_file_hash"]
+    assert statistics.traceability["project_source_file_hash"]
+    assert statistics.traceability["runtime"]["algorithm_backend"] == "native"
+    assert statistics.traceability["runtime"]["uqra_version"]
 
 
 def test_export_is_deterministic_and_round_trips(tmp_path: Path) -> None:

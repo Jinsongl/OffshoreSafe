@@ -384,6 +384,10 @@ Purpose:
     method, result, and provenance values;
 -   reopen generated Office Open XML and PDF artifacts and visually inspect
     every report sheet/page.
+-   run tower, blade-fatigue, and floating-platform vertical cases with explicit
+    benchmark reliability targets and require a PASS report conclusion;
+-   re-hash project, solver input, and solver output files from each standalone
+    manifest.
 
 Run:
 

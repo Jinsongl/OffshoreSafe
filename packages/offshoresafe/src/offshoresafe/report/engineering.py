@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import zipfile
 from collections.abc import Mapping
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 from xml.sax.saxutils import escape
@@ -15,7 +16,7 @@ from offshoresafe.traceability import TraceabilityManifest
 
 def _display(value: Any) -> str:
     if value is None:
-        return "—"
+        return "Not provided"
     if isinstance(value, bool):
         return "Yes" if value else "No"
     if isinstance(value, float):
@@ -42,27 +43,145 @@ def _flatten(value: Any, prefix: str = "") -> list[tuple[str, Any]]:
     return rows
 
 
+@dataclass(frozen=True, slots=True)
+class ReportTemplate:
+    """Versioned certification-facing report identity and sign-off fields."""
+
+    version: str = "1.0"
+    name: str = "OffshoreSafe Engineering Assessment"
+    organization: str = "Not provided"
+    prepared_by: str = "Not signed"
+    reviewed_by: str = "Not signed"
+    approved_by: str = "Not signed"
+
+    def __post_init__(self) -> None:
+        if not self.version.strip() or not self.name.strip():
+            raise ValueError("report template version and name must be non-empty")
+
+
+@dataclass(frozen=True, slots=True)
+class AssessmentCriteria:
+    """Explicit project acceptance criteria; no implicit code limits are assumed."""
+
+    reference: str
+    minimum_reliability_index: float | None = None
+    maximum_failure_probability: float | None = None
+
+    def __post_init__(self) -> None:
+        if not self.reference.strip():
+            raise ValueError("assessment criteria reference must be non-empty")
+        if (
+            self.maximum_failure_probability is not None
+            and not 0.0 <= self.maximum_failure_probability <= 1.0
+        ):
+            raise ValueError("maximum_failure_probability must be between 0 and 1")
+
+
+@dataclass(frozen=True, slots=True)
+class EngineeringCheck:
+    """One auditable engineering acceptance check."""
+
+    name: str
+    actual: float
+    operator: str
+    limit: float
+    unit: str | None
+    passed: bool
+
+
+@dataclass(frozen=True, slots=True)
+class EngineeringAssessment:
+    """Report-level conclusion derived only from explicit or result-native limits."""
+
+    status: str
+    risk_summary: str
+    criteria_reference: str
+    checks: tuple[EngineeringCheck, ...]
+
+
+def _assessment(
+    result: EngineeringAnalysisResult,
+    criteria: AssessmentCriteria | None,
+) -> EngineeringAssessment:
+    payload = result.payload
+    checks: list[EngineeringCheck] = []
+    if criteria and criteria.minimum_reliability_index is not None and "beta" in payload:
+        beta = float(payload["beta"])
+        limit = criteria.minimum_reliability_index
+        checks.append(EngineeringCheck("Reliability index", beta, ">=", limit, None, beta >= limit))
+    if criteria and criteria.maximum_failure_probability is not None and "pf" in payload:
+        pf = float(payload["pf"])
+        limit = criteria.maximum_failure_probability
+        checks.append(EngineeringCheck("Failure probability", pf, "<=", limit, None, pf <= limit))
+    native_pairs = (
+        ("Reference fatigue damage", "reference_damage", "damage_limit", None),
+        ("Reference response", "reference_response", "response_limit", payload.get("channel_unit")),
+    )
+    for name, actual_key, limit_key, unit in native_pairs:
+        if actual_key in payload and limit_key in payload:
+            actual = float(payload[actual_key])
+            limit = float(payload[limit_key])
+            checks.append(EngineeringCheck(name, actual, "<=", limit, unit, actual <= limit))
+    reference = criteria.reference if criteria else "Result-native limits only"
+    if not checks:
+        return EngineeringAssessment(
+            "NOT ASSESSED",
+            "No explicit acceptance criterion or result-native limit was available.",
+            reference,
+            (),
+        )
+    failures = tuple(check for check in checks if not check.passed)
+    if failures:
+        names = ", ".join(check.name for check in failures)
+        return EngineeringAssessment(
+            "FAIL",
+            f"Acceptance limit exceeded or reliability target not met: {names}.",
+            reference,
+            tuple(checks),
+        )
+    return EngineeringAssessment(
+        "PASS",
+        "All declared acceptance checks are satisfied for this analysis result.",
+        reference,
+        tuple(checks),
+    )
+
+
 class EngineeringReport:
     """Render a single analysis result through consistent report views."""
 
-    def __init__(self, result: EngineeringAnalysisResult, *, title: str | None = None):
+    def __init__(
+        self,
+        result: EngineeringAnalysisResult,
+        *,
+        title: str | None = None,
+        template: ReportTemplate | None = None,
+        criteria: AssessmentCriteria | None = None,
+    ):
         if not isinstance(result, EngineeringAnalysisResult):
             raise TypeError("result must be an EngineeringAnalysisResult")
         self.result = result
         self.manifest = TraceabilityManifest.from_result(result)
-        self.title = title or f"OffshoreSafe Engineering Report — {result.analysis_id}"
+        self.template = template or ReportTemplate()
+        self.criteria = criteria
+        self.assessment = _assessment(result, criteria)
+        self.title = title or f"OffshoreSafe Engineering Report - {result.analysis_id}"
 
     def _sections(self) -> dict[str, list[tuple[str, Any]]]:
         validation = self.manifest.validate()
         summary = [
             ("Project ID", self.result.project_id),
             ("Analysis ID", self.result.analysis_id),
+            ("Template", self.template.name),
+            ("Template version", self.template.version),
+            ("Organization", self.template.organization),
             ("Analysis type", self.result.analysis_type),
             ("Method", self.result.method),
             ("Solver", self.result.solver_id),
             ("Adapter", self.result.adapter),
             ("Analysis timestamp", self.result.analyzed_at),
             ("Traceability status", "Complete" if validation.complete else "Incomplete"),
+            ("Engineering status", self.assessment.status),
             ("Result SHA-256", self.manifest.result_hash),
         ]
         trace = [
@@ -78,11 +197,37 @@ class EngineeringReport:
                 ("Warnings", validation.warnings),
             ]
         )
+        audit = self.manifest.verify_files()
+        trace.append(("Current file audit", "Verified" if audit.verified else "Failed"))
+        for check in audit.checks:
+            trace.append((f"File audit - {check.role}", "Match" if check.matches else "Mismatch or unavailable"))
+        assessment = [
+            ("Overall status", self.assessment.status),
+            ("Criteria reference", self.assessment.criteria_reference),
+            ("Risk summary", self.assessment.risk_summary),
+        ]
+        for check in self.assessment.checks:
+            unit = f" {check.unit}" if check.unit else ""
+            assessment.append(
+                (
+                    check.name,
+                    f"{_display(check.actual)}{unit} {check.operator} "
+                    f"{_display(check.limit)}{unit} - "
+                    f"{'PASS' if check.passed else 'FAIL'}",
+                )
+            )
         return {
             "Summary": summary,
+            "Assessment": assessment,
             "Parameters": _flatten(self.result.parameters),
             "Results": _flatten(self.result.payload),
             "Traceability": trace,
+            "Approval": [
+                ("Prepared by", self.template.prepared_by),
+                ("Reviewed by", self.template.reviewed_by),
+                ("Approved by", self.template.approved_by),
+                ("Report template version", self.template.version),
+            ],
         }
 
     def to_markdown(self, path: str | Path) -> Path:
@@ -193,6 +338,17 @@ class EngineeringReport:
             "pdf": self.to_pdf(output / f"{name}.pdf"),
         }
 
+    def export_bundle(
+        self, directory: str | Path, *, stem: str | None = None
+    ) -> dict[str, Path]:
+        """Export all reports plus the standalone traceability manifest."""
+
+        artifacts = self.export_all(directory, stem=stem)
+        output = Path(directory).expanduser().resolve()
+        name = stem or self.result.analysis_id
+        artifacts["manifest"] = self.manifest.export(output / f"{name}.manifest.json")
+        return artifacts
+
     @staticmethod
     def _target(path: str | Path, suffix: str) -> Path:
         target = Path(path).expanduser().resolve()
@@ -221,7 +377,7 @@ def _worksheet(title: str, section: str, rows: list[tuple[str, Any]]) -> str:
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
         '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
         '<sheetViews><sheetView showGridLines="0" workbookViewId="0"/></sheetViews>'
-        '<cols><col min="1" max="1" width="34" customWidth="1"/><col min="2" max="2" width="86" customWidth="1"/></cols>'
+        '<cols><col min="1" max="1" width="52" customWidth="1"/><col min="2" max="2" width="68" customWidth="1"/></cols>'
         f'<sheetData>{"".join(data)}</sheetData><autoFilter ref="A4:B{last}"/>'
         '<mergeCells count="2"><mergeCell ref="A1:B1"/><mergeCell ref="A2:B2"/></mergeCells>'
         '</worksheet>'
@@ -255,4 +411,10 @@ def _styles() -> str:
     return '''<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="4"><font><sz val="10"/><name val="Aptos"/></font><font><b/><sz val="16"/><color rgb="FFFFFFFF"/><name val="Aptos Display"/></font><font><b/><sz val="12"/><color rgb="FF12344D"/><name val="Aptos Display"/></font><font><b/><sz val="10"/><color rgb="FFFFFFFF"/><name val="Aptos"/></font></fonts><fills count="5"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF12344D"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FF176B87"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF2F6F8"/></patternFill></fill></fills><borders count="2"><border/><border><bottom style="thin"><color rgb="FFD6E1E6"/></bottom></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="6"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="center"/></xf><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="3" fillId="3" borderId="0" xfId="0"/><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="4" borderId="1" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'''
 
 
-__all__ = ["EngineeringReport"]
+__all__ = [
+    "AssessmentCriteria",
+    "EngineeringAssessment",
+    "EngineeringCheck",
+    "EngineeringReport",
+    "ReportTemplate",
+]

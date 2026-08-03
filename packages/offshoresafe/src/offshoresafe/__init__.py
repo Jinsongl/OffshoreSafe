@@ -35,7 +35,13 @@ from offshoresafe.project import (
     load_project,
     save_project,
 )
-from offshoresafe.report import EngineeringReport
+from offshoresafe.report import (
+    AssessmentCriteria,
+    EngineeringAssessment,
+    EngineeringCheck,
+    EngineeringReport,
+    ReportTemplate,
+)
 from offshoresafe.solver import (
     HEROWINDAdapter,
     OpenFASTAdapter,
@@ -54,19 +60,28 @@ from offshoresafe.structural import (
     build_floating_random_vector,
     build_tower_random_vector,
 )
-from offshoresafe.traceability import TraceabilityManifest, TraceabilityValidation
+from offshoresafe.traceability import (
+    FileIntegrityCheck,
+    TraceabilityAudit,
+    TraceabilityManifest,
+    TraceabilityValidation,
+)
 
 __all__ = [
     "SUPPORTED_METOCEAN_VARIABLES",
     "AnalysisConfiguration",
+    "AssessmentCriteria",
     "BladeFatigueLimitState",
     "ChannelStatistics",
     "EngineeringAnalysisResult",
     "EngineeringAnalysisWorkflow",
+    "EngineeringAssessment",
+    "EngineeringCheck",
     "EngineeringReport",
     "EnvironmentalContourResult",
     "ExtremeValueFit",
     "FatigueDamageResult",
+    "FileIntegrityCheck",
     "FloatingResponseLimitState",
     "HEROWINDAdapter",
     "MetoceanModel",
@@ -77,6 +92,7 @@ __all__ = [
     "ProjectInformation",
     "RainflowCycle",
     "RainflowResult",
+    "ReportTemplate",
     "SNCurve",
     "SolverAdapter",
     "SolverCapability",
@@ -84,6 +100,7 @@ __all__ = [
     "SolverResult",
     "StatisticsResult",
     "TowerBendingLimitState",
+    "TraceabilityAudit",
     "TraceabilityManifest",
     "TraceabilityValidation",
     "TurbineInformation",

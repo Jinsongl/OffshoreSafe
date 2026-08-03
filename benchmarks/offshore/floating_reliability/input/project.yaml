@@ -1,0 +1,41 @@
+schema_version: "1.0"
+project:
+  project_id: floating-reliability-benchmark
+  name: Floating platform reliability benchmark
+turbine:
+  turbine_id: reference-15mw-floating
+  model: Reference 15 MW floating
+  rated_power_mw: 15.0
+  definition_file: turbine.yaml
+solver:
+  solver_id: openfast-floating
+  adapter: openfast
+  input_file: ../../openfast_adapter/input/main.fst
+  output_file: floating.out
+analyses:
+  - analysis_id: floating-form
+    analysis_type: floating_platform_reliability
+    method: FORM
+    backend: native
+    settings:
+      channel: platform_pitch
+      response_kind: platform_motion
+      response_limit: 7.0
+      reference_environment:
+        significant_wave_height: 6.0
+        peak_period: 10.0
+        current_speed: 1.0
+        mooring_stiffness: 1000.0
+      variables:
+        significant_wave_height:
+          distribution: Lognormal
+          parameters: {mean: 6.0, std: 0.5}
+        peak_period:
+          distribution: Lognormal
+          parameters: {mean: 10.0, std: 0.6}
+        current_speed:
+          distribution: Lognormal
+          parameters: {mean: 1.0, std: 0.1}
+        mooring_stiffness:
+          distribution: Lognormal
+          parameters: {mean: 1000.0, std: 80.0}

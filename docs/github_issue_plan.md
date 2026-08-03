@@ -735,8 +735,14 @@ Output:
 -   PDF.
 
 All formats are rendered from the same result and traceability manifest. The
-Excel report contains Summary, Parameters, Results, and Traceability sheets;
-the PDF follows the same four-section structure.
+Excel and PDF reports contain Summary, Assessment, Parameters, Results,
+Traceability, and Approval sections.
+
+Follow-on acceptance is complete for the tower, blade-fatigue, and floating
+vertical cases. Template version 1.1 adds explicit criteria, engineering
+PASS/FAIL/NOT ASSESSED status, risk summary, units/limits, and approval fields.
+Traceability now supports current-file re-verification, runtime/backend
+provenance, and a standalone manifest JSON.
 
 ------------------------------------------------------------------------
 
@@ -862,10 +868,10 @@ The third structural vertical slice now connects normalized motion/tension,
 metocean and mooring uncertainty, UQRA FORM/Monte Carlo, and Issue #064
 provenance.
 
-Reporting and traceability consolidation is complete. The next increment is to
-apply the report bundle to the tower, blade, and floating benchmark acceptance
-paths and define certification-facing templates/versioning without changing the
-common result contract.
+Reporting and traceability consolidation plus the three vertical-case report
+acceptance paths are complete. The next increment is organization-specific
+certification template governance and additional verified solver adapters,
+without changing the common result contract.
 
 ------------------------------------------------------------------------
 

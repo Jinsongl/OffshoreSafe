@@ -1,5 +1,17 @@
 """Engineering report generation from normalized OffshoreSafe results."""
 
-from offshoresafe.report.engineering import EngineeringReport
+from offshoresafe.report.engineering import (
+    AssessmentCriteria,
+    EngineeringAssessment,
+    EngineeringCheck,
+    EngineeringReport,
+    ReportTemplate,
+)
 
-__all__ = ["EngineeringReport"]
+__all__ = [
+    "AssessmentCriteria",
+    "EngineeringAssessment",
+    "EngineeringCheck",
+    "EngineeringReport",
+    "ReportTemplate",
+]

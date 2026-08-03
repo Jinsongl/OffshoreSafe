@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
+import platform
+import sys
 from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
@@ -377,7 +380,14 @@ class EngineeringAnalysisWorkflow:
         timestamp = analyzed_at or datetime.now(UTC)
         if timestamp.tzinfo is None or timestamp.utcoffset() is None:
             raise ValueError("analyzed_at must be timezone-aware")
+        from uqra import __version__ as uqra_version
+
         from offshoresafe import __version__
+
+        project_source = self.project.source_file
+        project_hash = None
+        if project_source and project_source.is_file():
+            project_hash = hashlib.sha256(project_source.read_bytes()).hexdigest()
 
         return EngineeringAnalysisResult(
             project_id=self.project.project.project_id,
@@ -391,11 +401,19 @@ class EngineeringAnalysisWorkflow:
             parameters=parameters,
             traceability={
                 "project_source_file": (
-                    str(self.project.source_file) if self.project.source_file else None
+                    str(project_source) if project_source else None
                 ),
+                "project_source_file_hash": project_hash,
                 "solver_input": dict(input_metadata),
                 "solver_output": dict(solver_result.metadata),
                 "context": {"case_id": case_id, "sample_id": sample_id},
+                "runtime": {
+                    "algorithm_backend": analysis.backend,
+                    "python_version": platform.python_version(),
+                    "platform": platform.platform(),
+                    "uqra_version": uqra_version,
+                    "python_implementation": sys.implementation.name,
+                },
             },
             payload=payload,
         )
