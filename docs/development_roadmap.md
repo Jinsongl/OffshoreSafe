@@ -330,6 +330,13 @@ Applications:
 -   extreme response;
 -   structural safety.
 
+Progress:
+
+-   [x] Correlated wind/wave/current random model in the OffshoreSafe domain
+    layer (Issue #080).
+-   [x] Domain-independent UQRA IFORM contour with OffshoreSafe environmental
+    result normalization and Hs-Tp benchmark (Issue #081).
+
 ------------------------------------------------------------------------
 
 # Phase 5: Industrial Release

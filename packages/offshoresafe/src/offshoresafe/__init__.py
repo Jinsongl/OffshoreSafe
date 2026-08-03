@@ -3,6 +3,11 @@
 __version__ = "0.1.0a1.dev0"
 
 from offshoresafe.analysis import EngineeringAnalysisResult, EngineeringAnalysisWorkflow
+from offshoresafe.metocean import (
+    SUPPORTED_METOCEAN_VARIABLES,
+    EnvironmentalContourResult,
+    MetoceanModel,
+)
 from offshoresafe.postprocessing import (
     ChannelStatistics,
     ExtremeValueFit,
@@ -47,14 +52,17 @@ from offshoresafe.structural import (
 )
 
 __all__ = [
+    "SUPPORTED_METOCEAN_VARIABLES",
     "AnalysisConfiguration",
     "BladeFatigueLimitState",
     "ChannelStatistics",
     "EngineeringAnalysisResult",
     "EngineeringAnalysisWorkflow",
+    "EnvironmentalContourResult",
     "ExtremeValueFit",
     "FatigueDamageResult",
     "HEROWINDAdapter",
+    "MetoceanModel",
     "OffshoreProject",
     "OpenFASTAdapter",
     "Peak",

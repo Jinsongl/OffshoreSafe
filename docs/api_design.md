@@ -494,6 +494,42 @@ The traceable payload contains rainflow cycles, reference damage evaluated at
 the variable means, lifetime scaling, damage limit, `pf`, `beta`, design points,
 sensitivity, convergence, and backend metadata.
 
+Issues #080 and #081 separate domain modeling from the probability algorithm.
+OffshoreSafe defines named metocean variables, units, marginal distributions,
+and Gaussian-copula correlation. UQRA generates an IFORM surface at reliability
+radius
+
+``` text
+beta = Phi^-1(1 - 1 / (return_period * events_per_period))
+```
+
+and maps its standard-normal directions to physical space. The default direction
+generator produces a two-dimensional closed contour; callers may supply unit
+directions for higher-dimensional surfaces.
+
+``` python
+model = MetoceanModel.from_config({
+    "variables": {
+        "significant_wave_height": {
+            "distribution": "Weibull",
+            "parameters": {"scale": 3.0, "shape": 2.0},
+            "unit": "m",
+        },
+        "peak_period": {
+            "distribution": "Lognormal",
+            "parameters": {"mean": 9.0, "std": 1.2},
+            "unit": "s",
+        },
+    },
+    "correlation_matrix": [[1.0, 0.35], [0.35, 1.0]],
+})
+contour = model.iform_contour(
+    return_period=50.0,
+    events_per_period=365.25,
+    n_points=72,
+)
+```
+
 Implemented workflow adapters:
 
 -   HEROWIND

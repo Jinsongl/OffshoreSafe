@@ -86,3 +86,5 @@ in `docs/engineering_postprocessing.md`.
 Tower-base bending reliability is documented in `docs/tower_reliability.md`.
 Blade fatigue reliability is documented in
 `docs/blade_fatigue_reliability.md`.
+Metocean random models and IFORM environmental contours are documented in
+`docs/environmental_contour.md`.

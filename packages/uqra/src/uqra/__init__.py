@@ -36,6 +36,7 @@ from uqra.backends import (
     to_uqpy_distributions,
     uqpy_available,
 )
+from uqra.contour import IFORMContour, IFORMContourResult
 from uqra.core import (
     Distribution,
     Lognormal,
@@ -70,6 +71,8 @@ __all__ = [
     "Capability",
     "ChaospyBackend",
     "Distribution",
+    "IFORMContour",
+    "IFORMContourResult",
     "LHSSampler",
     "LatinHypercubeSampler",
     "LimitStateFunction",

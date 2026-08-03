@@ -479,6 +479,9 @@ first-order linearization and a fixed design-point reference.
 `offshore/blade_fatigue_reliability` validates Issue #071 by rainflow-counting a
 normalized OpenFAST blade-root moment, checking analytical Miner damage, and
 solving uncertain load/S-N parameters against a fixed native FORM reference.
+`offshore/environmental_contour` validates Issues #080 and #081 with correlated
+Weibull Hs and Lognormal Tp marginals, the analytical IFORM radius, constant
+standard-normal norm, and a fixed physical contour point.
 
 ------------------------------------------------------------------------
 

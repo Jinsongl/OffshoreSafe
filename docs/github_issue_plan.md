@@ -46,12 +46,12 @@ The plan is designed for:
 | 2.0 OffshoreSafe MVP: solver integration | Partially complete | Project schema, solver contract, OpenFAST ASCII, and HEROWIND text adapters; Bladed deferred |
 | 2.1 Engineering Post Processing | Complete | Statistics, extremes, rainflow, Miner damage, S-N curves, DEL, and the configured analysis workflow |
 | 2.2 Offshore Reliability | Partially complete | Tower-base bending and blade-fatigue reliability complete; floating-platform workflow planned |
-| 3.0 Environmental Contour | Planned | Metocean model and IFORM contour |
+| 3.0 Environmental Contour | Complete | Correlated metocean model and IFORM probability contour |
 | 4.0 Reporting and Traceability | Planned | End-to-end provenance and engineering reports |
 
 Current verification baseline:
 
--   151 tests pass in the `offshoresafe-dev` Python 3.11 environment.
+-   161 tests pass in the `offshoresafe-dev` Python 3.11 environment.
 -   37 optional-backend tests are skipped when their third-party packages are
     not installed.
 -   Ruff lint and format checks pass.
@@ -77,7 +77,7 @@ UQRA contains no offshore engineering or solver-specific imports.
 | #070 | Complete | Tower-base bending reliability through normalized solver results and UQRA FORM/Monte Carlo |
 | #071 | Complete | Blade-root fatigue reliability using rainflow, uncertain load/S-N parameters, and UQRA FORM/Monte Carlo |
 | #072 | Planned | Floating-platform reliability workflow |
-| #080--#081 | Planned | Metocean probability model and IFORM contour |
+| #080--#081 | Complete | Correlated metocean marginals and domain-independent UQRA IFORM contour |
 | #090--#091 | Planned | Cross-workflow traceability and report generation |
 
 ------------------------------------------------------------------------
@@ -649,6 +649,8 @@ Responses:
 
 ## Issue #080 Metocean Random Model
 
+Status: **Complete**.
+
 Support:
 
 -   wind;
@@ -656,9 +658,14 @@ Support:
 -   current;
 -   joint distribution.
 
+Implemented with named wind, wave, current, period, and direction marginals,
+engineering units, strict configuration, and Gaussian-copula correlation.
+
 ------------------------------------------------------------------------
 
 ## Issue #081 IFORM Environmental Contour
+
+Status: **Complete**.
 
 Implement:
 
@@ -669,6 +676,11 @@ Implement:
 Benchmark:
 
 Hs-Tp environmental contour.
+
+Implemented with analytical return-period radius, two-dimensional circular
+directions, explicit higher-dimensional directions, Gaussian transformation,
+immutable physical/standard-normal results, and a correlated Weibull Hs /
+Lognormal Tp benchmark.
 
 ------------------------------------------------------------------------
 
@@ -805,14 +817,13 @@ Open focused follow-up issues only where application requirements justify them:
 -   uncertainty or goodness-of-fit diagnostics for extreme distributions;
 -   additional solver adapters, prioritized by available verified fixtures.
 
-These enhancements should not block the active metocean/floating-platform path
+These enhancements should not block the active floating-platform path
 unless its acceptance fixtures demonstrate a concrete need.
 
-## Priority 1 --- Issues #080 and #081 Metocean and Environmental Contour
+## Completed Priority --- Issues #080 and #081 Metocean and Environmental Contour
 
-Implement the domain-level wind, wave, and current probability model followed
-by IFORM environmental contours. These become reusable inputs for the more
-complex floating-platform workflow.
+The domain-level wind, wave, and current probability model and UQRA IFORM
+environmental contours are implemented and verified by the Hs-Tp benchmark.
 
 ## Priority 2 --- Issue #072 Floating Platform Reliability
 
@@ -838,8 +849,7 @@ Completed foundation:
 
 Active critical path:
 
-    Issues #080/#081 metocean and environmental contour
-        -> Issue #072 floating-platform reliability
+    Issue #072 floating-platform reliability
         -> Issues #090/#091 reporting and traceability
 
 Core principle:
