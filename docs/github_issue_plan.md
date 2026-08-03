@@ -45,13 +45,13 @@ The plan is designed for:
 | 1.1 Plugin Architecture | Complete | Native, OpenTURNS, UQpy, Chaospy, and SALib backends |
 | 2.0 OffshoreSafe MVP: solver integration | Partially complete | Project schema, solver contract, OpenFAST ASCII, and HEROWIND text adapters; Bladed deferred |
 | 2.1 Engineering Post Processing | Complete | Statistics, extremes, rainflow, Miner damage, S-N curves, DEL, and the configured analysis workflow |
-| 2.2 Offshore Reliability | Partially complete | Tower-base bending and blade-fatigue reliability complete; floating-platform workflow planned |
+| 2.2 Offshore Reliability | Complete | Tower bending, blade fatigue, and floating-platform response vertical slices |
 | 3.0 Environmental Contour | Complete | Correlated metocean model and IFORM probability contour |
 | 4.0 Reporting and Traceability | Planned | End-to-end provenance and engineering reports |
 
 Current verification baseline:
 
--   161 tests pass in the `offshoresafe-dev` Python 3.11 environment.
+-   166 tests pass in the `offshoresafe-dev` Python 3.11 environment.
 -   37 optional-backend tests are skipped when their third-party packages are
     not installed.
 -   Ruff lint and format checks pass.
@@ -76,7 +76,7 @@ UQRA contains no offshore engineering or solver-specific imports.
 | #064 | Complete in `15e4c44` | End-to-end engineering analysis orchestration, result provenance, and deterministic JSON |
 | #070 | Complete | Tower-base bending reliability through normalized solver results and UQRA FORM/Monte Carlo |
 | #071 | Complete | Blade-root fatigue reliability using rainflow, uncertain load/S-N parameters, and UQRA FORM/Monte Carlo |
-| #072 | Planned | Floating-platform reliability workflow |
+| #072 | Complete | Floating motion/tension response reliability with Hs, Tp, current, and mooring stiffness |
 | #080--#081 | Complete | Correlated metocean marginals and domain-independent UQRA IFORM contour |
 | #090--#091 | Planned | Cross-workflow traceability and report generation |
 
@@ -631,6 +631,8 @@ Limitations:
 
 ## Issue #072 Floating Platform Reliability
 
+Status: **Complete**.
+
 Variables:
 
 -   Hs;
@@ -642,6 +644,23 @@ Responses:
 
 -   motion;
 -   mooring tension.
+
+Implemented scope:
+
+-   normalized platform-motion or mooring-tension reference response;
+-   explicit power-law response surface for Hs, Tp, current, and inverse mooring
+    stiffness effects;
+-   positive Lognormal/Weibull marginals, optional correlation and exponents;
+-   configurable scalar response limit and reference environment;
+-   native UQRA FORM/Monte Carlo through the Issue #064 traceable workflow;
+-   OpenFAST platform-pitch end-to-end test and fixed FORM benchmark.
+
+Limitations:
+
+-   screening response surface only, requiring calibration against simulations
+    or measurements;
+-   hydrodynamics, resonance, directionality, nonlinear line geometry/dynamics,
+    multi-body coupling, and event sequencing are not implicit.
 
 ------------------------------------------------------------------------
 
@@ -825,14 +844,14 @@ unless its acceptance fixtures demonstrate a concrete need.
 The domain-level wind, wave, and current probability model and UQRA IFORM
 environmental contours are implemented and verified by the Hs-Tp benchmark.
 
-## Priority 2 --- Issue #072 Floating Platform Reliability
+## Completed Priority --- Issue #072 Floating Platform Reliability
 
-Proceed after the metocean and contour contracts stabilize:
+The third structural vertical slice now connects normalized motion/tension,
+metocean and mooring uncertainty, UQRA FORM/Monte Carlo, and Issue #064
+provenance.
 
-1.  Floating-platform reliability, which depends on the broader metocean and
-    solver-integration surface.
-2.  Reporting and full traceability consolidation after the structural
-    workflows produce stable result schemas.
+Next, consolidate reporting and traceability after the structural workflows
+have produced stable result schemas.
 
 ------------------------------------------------------------------------
 
@@ -849,8 +868,7 @@ Completed foundation:
 
 Active critical path:
 
-    Issue #072 floating-platform reliability
-        -> Issues #090/#091 reporting and traceability
+    Issues #090/#091 reporting and traceability
 
 Core principle:
 

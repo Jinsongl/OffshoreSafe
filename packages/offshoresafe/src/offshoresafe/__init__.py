@@ -44,10 +44,13 @@ from offshoresafe.solver import (
 )
 from offshoresafe.structural import (
     BladeFatigueLimitState,
+    FloatingResponseLimitState,
     TowerBendingLimitState,
     analyze_blade_fatigue_reliability,
+    analyze_floating_reliability,
     analyze_tower_reliability,
     build_blade_fatigue_random_vector,
+    build_floating_random_vector,
     build_tower_random_vector,
 )
 
@@ -61,6 +64,7 @@ __all__ = [
     "EnvironmentalContourResult",
     "ExtremeValueFit",
     "FatigueDamageResult",
+    "FloatingResponseLimitState",
     "HEROWINDAdapter",
     "MetoceanModel",
     "OffshoreProject",
@@ -80,8 +84,10 @@ __all__ = [
     "TurbineInformation",
     "__version__",
     "analyze_blade_fatigue_reliability",
+    "analyze_floating_reliability",
     "analyze_tower_reliability",
     "build_blade_fatigue_random_vector",
+    "build_floating_random_vector",
     "build_tower_random_vector",
     "calculate_del",
     "calculate_fatigue_damage",

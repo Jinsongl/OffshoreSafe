@@ -88,3 +88,5 @@ Blade fatigue reliability is documented in
 `docs/blade_fatigue_reliability.md`.
 Metocean random models and IFORM environmental contours are documented in
 `docs/environmental_contour.md`.
+Floating-platform response reliability is documented in
+`docs/floating_reliability.md`.

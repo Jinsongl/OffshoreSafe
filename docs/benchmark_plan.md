@@ -482,6 +482,9 @@ solving uncertain load/S-N parameters against a fixed native FORM reference.
 `offshore/environmental_contour` validates Issues #080 and #081 with correlated
 Weibull Hs and Lognormal Tp marginals, the analytical IFORM radius, constant
 standard-normal norm, and a fixed physical contour point.
+`offshore/floating_reliability` validates Issue #072 with a normalized platform
+pitch, explicit Hs/Tp/current/stiffness response surface, reference-state check,
+and fixed native FORM result.
 
 ------------------------------------------------------------------------
 

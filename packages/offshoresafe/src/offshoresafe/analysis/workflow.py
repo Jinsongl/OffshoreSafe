@@ -24,6 +24,7 @@ from offshoresafe.project import AnalysisConfiguration, OffshoreProject
 from offshoresafe.solver import HEROWINDAdapter, OpenFASTAdapter, SolverAdapter
 from offshoresafe.structural import (
     analyze_blade_fatigue_reliability,
+    analyze_floating_reliability,
     analyze_tower_reliability,
 )
 
@@ -334,6 +335,14 @@ class EngineeringAnalysisWorkflow:
 
         if analysis_type == "blade_fatigue_reliability":
             return analyze_blade_fatigue_reliability(
+                solver_result,
+                analysis.settings,
+                method=analysis.method,
+                backend=analysis.backend,
+            )
+
+        if analysis_type == "floating_platform_reliability":
+            return analyze_floating_reliability(
                 solver_result,
                 analysis.settings,
                 method=analysis.method,

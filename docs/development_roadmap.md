@@ -297,6 +297,9 @@ Progress:
     loads and UQRA FORM/Monte Carlo (Issue #070).
 -   [x] Blade-root fatigue reliability vertical slice using rainflow cycles,
     uncertain S-N parameters, and UQRA FORM/Monte Carlo (Issue #071).
+-   [x] Floating-platform response reliability vertical slice using normalized
+    motion/tension, Hs, Tp, current, mooring stiffness, and UQRA FORM/Monte
+    Carlo (Issue #072).
 
 Applications:
 

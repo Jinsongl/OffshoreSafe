@@ -530,6 +530,22 @@ contour = model.iform_contour(
 )
 ```
 
+Issue #072 adds a transparent screening-level floating response surface. For a
+normalized reference response `Rref`, response limit `Rlim`, and environmental
+reference state, the limit state is
+
+``` text
+R(X) = Rref * (Hs/Hs_ref)^p * (Tp/Tp_ref)^q
+             * (U/U_ref)^r * (K_ref/K)^s
+g(X) = Rlim - R(X)
+```
+
+The four positive variables are significant wave height, peak period, current
+speed, and mooring stiffness. The response channel may represent a platform
+motion or mooring tension. Exponents and reference values are explicit project
+settings; UQRA supplies FORM/Monte Carlo without acquiring offshore-domain
+logic.
+
 Implemented workflow adapters:
 
 -   HEROWIND
