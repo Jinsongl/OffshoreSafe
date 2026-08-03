@@ -359,6 +359,8 @@ class EngineeringAnalysisWorkflow:
         *,
         output_file: str | Path | None = None,
         analyzed_at: datetime | None = None,
+        case_id: str | None = None,
+        sample_id: str | None = None,
     ) -> EngineeringAnalysisResult:
         """Execute one configured analysis over a solver output file."""
 
@@ -393,6 +395,7 @@ class EngineeringAnalysisWorkflow:
                 ),
                 "solver_input": dict(input_metadata),
                 "solver_output": dict(solver_result.metadata),
+                "context": {"case_id": case_id, "sample_id": sample_id},
             },
             payload=payload,
         )

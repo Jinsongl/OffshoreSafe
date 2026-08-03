@@ -374,6 +374,21 @@ Assessment:
 
 # 6. Accuracy Evaluation Criteria
 
+## Engineering traceability and report benchmark
+
+Purpose:
+
+-   verify one normalized engineering result produces a complete traceability
+    manifest with stable SHA-256 fingerprints;
+-   verify Markdown, Excel, and PDF reports expose the same project, analysis,
+    method, result, and provenance values;
+-   reopen generated Office Open XML and PDF artifacts and visually inspect
+    every report sheet/page.
+
+Run:
+
+    python benchmarks/offshore/engineering_report/run.py
+
 ## Algorithm Level
 
 Compare:

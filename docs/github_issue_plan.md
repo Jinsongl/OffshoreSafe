@@ -78,7 +78,7 @@ UQRA contains no offshore engineering or solver-specific imports.
 | #071 | Complete | Blade-root fatigue reliability using rainflow, uncertain load/S-N parameters, and UQRA FORM/Monte Carlo |
 | #072 | Complete | Floating motion/tension response reliability with Hs, Tp, current, and mooring stiffness |
 | #080--#081 | Complete | Correlated metocean marginals and domain-independent UQRA IFORM contour |
-| #090--#091 | Planned | Cross-workflow traceability and report generation |
+| #090--#091 | Complete | Unified manifest/validation and Markdown, Excel, PDF reports |
 
 ------------------------------------------------------------------------
 
@@ -707,6 +707,8 @@ Lognormal Tp benchmark.
 
 ## Issue #090 Traceability System
 
+Status: Complete.
+
 Record:
 
 -   input hash;
@@ -716,15 +718,25 @@ Record:
 -   analysis method;
 -   result.
 
+Implemented as an analysis-independent manifest over the common engineering
+result, including input/output hashes, solver/software versions, case/sample
+context, stable parameter/payload/result fingerprints, and completeness checks.
+
 ------------------------------------------------------------------------
 
 ## Issue #091 Engineering Report
+
+Status: Complete.
 
 Output:
 
 -   Markdown;
 -   Excel;
 -   PDF.
+
+All formats are rendered from the same result and traceability manifest. The
+Excel report contains Summary, Parameters, Results, and Traceability sheets;
+the PDF follows the same four-section structure.
 
 ------------------------------------------------------------------------
 
@@ -850,8 +862,10 @@ The third structural vertical slice now connects normalized motion/tension,
 metocean and mooring uncertainty, UQRA FORM/Monte Carlo, and Issue #064
 provenance.
 
-Next, consolidate reporting and traceability after the structural workflows
-have produced stable result schemas.
+Reporting and traceability consolidation is complete. The next increment is to
+apply the report bundle to the tower, blade, and floating benchmark acceptance
+paths and define certification-facing templates/versioning without changing the
+common result contract.
 
 ------------------------------------------------------------------------
 
@@ -866,9 +880,11 @@ Completed foundation:
         -> OffshoreSafe solver normalization
         -> engineering post-processing
 
-Active critical path:
+Next critical path:
 
-    Issues #090/#091 reporting and traceability
+    vertical-case report acceptance
+        -> certification template/version policy
+        -> additional verified solver adapters
 
 Core principle:
 

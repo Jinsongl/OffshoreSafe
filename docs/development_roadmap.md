@@ -278,6 +278,10 @@ Progress:
 -   [x] Versioned project-to-solver-to-post-processing workflow with a common
     traceable engineering result and deterministic JSON serialization
     (Issue #064).
+-   [x] Analysis-independent traceability manifest, stable result fingerprints,
+    completeness validation, and case/sample context (Issue #090).
+-   [x] Consistent Markdown, Excel, and PDF engineering reports generated from
+    the common engineering result and traceability manifest (Issue #091).
 
 Functions:
 

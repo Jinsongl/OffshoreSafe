@@ -436,6 +436,16 @@ Purpose:
 -   engineering review;
 -   certification support.
 
+Issue #090 normalizes these fields into a `TraceabilityManifest` independent of
+analysis type. It adds SHA-256 fingerprints for parameters, payload, and the
+reviewable result core, while completeness validation distinguishes required
+provenance from optional case/sample context for legacy workflows.
+
+Issue #091 renders the same `EngineeringAnalysisResult` and manifest as
+Markdown, Excel, or PDF. Reporting remains in OffshoreSafe because document
+structure and engineering terminology are application concerns; UQRA has no
+reporting dependency.
+
 ------------------------------------------------------------------------
 
 # 9. Recommended Development Order
