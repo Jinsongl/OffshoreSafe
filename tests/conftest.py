@@ -6,4 +6,6 @@ import sys
 from pathlib import Path
 
 UQRA_SOURCE = Path(__file__).parents[1] / "packages" / "uqra" / "src"
+OFFSHORESAFE_SOURCE = Path(__file__).parents[1] / "packages" / "offshoresafe" / "src"
 sys.path.insert(0, str(UQRA_SOURCE))
+sys.path.insert(0, str(OFFSHORESAFE_SOURCE))

@@ -1,0 +1,24 @@
+schema_version: "1.0"
+project:
+  project_id: demo-offshore-wind
+  name: Minimal OffshoreSafe Project
+  description: Minimal validated project definition for Issue #050.
+turbine:
+  turbine_id: demo-15mw
+  model: Reference 15 MW
+  rated_power_mw: 15.0
+  definition_file: turbine.yaml
+solver:
+  solver_id: openfast-primary
+  adapter: openfast
+  input_file: model/main.fst
+  executable: openfast
+  settings:
+    timeout_seconds: 3600
+analyses:
+  - analysis_id: tower-form
+    analysis_type: reliability
+    method: FORM
+    backend: native
+    settings:
+      limit_state: tower_base_moment

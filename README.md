@@ -18,7 +18,9 @@ environment and install the repository in editable mode:
 ``` powershell
 conda activate offshoresafe-dev
 python -m pip install -e ".[dev]"
+python -m pip install -e packages/offshoresafe
 python -c "import uqra; print(uqra.__version__)"
+python -c "import offshoresafe; print(offshoresafe.__version__)"
 ```
 
 The latest tagged prerelease is `v0.1.0a1`. Development after that tag uses
@@ -71,3 +73,5 @@ Benchmark definitions, reference values, and tolerances are documented under
 
 Optional backend installation, capability, and NumPy compatibility constraints
 are maintained in `docs/plugin_compatibility.md`.
+The versioned OffshoreSafe YAML schema is documented in
+`docs/project_definition.md`.

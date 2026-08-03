@@ -237,6 +237,11 @@ Build offshore engineering workflow.
 
 ## M3.1 Solver Integration
 
+Progress:
+
+-   [x] Versioned `project.yaml` definition, strict validation, and path
+    resolution (Issue #050).
+
 Support:
 
 -   HEROWIND;

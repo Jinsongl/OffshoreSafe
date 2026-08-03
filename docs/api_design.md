@@ -287,6 +287,20 @@ Install the optional backend with `python -m pip install -e ".[salib]"`.
 
 # 5. OffshoreSafe API
 
+Issue #050 establishes the application entry point:
+
+``` python
+from offshoresafe import OffshoreProject
+
+project = OffshoreProject.load("project.yaml")
+project.save("build/project.yaml")
+```
+
+`OffshoreProject` uses strict immutable schema components for project, turbine,
+solver, and analysis information. Unknown fields, unsupported schema versions,
+invalid IDs, duplicate analysis IDs, and missing referenced files are rejected.
+Resolved file paths are absolute in memory and portable when serialized.
+
 Example:
 
 ``` python

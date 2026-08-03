@@ -334,7 +334,17 @@ Supported:
 
     OrcaFlex
 
-    Generic CSV
+Generic CSV
+
+------------------------------------------------------------------------
+
+## 6.1 Project Definition Boundary
+
+OffshoreSafe is packaged separately under `packages/offshoresafe` and declares
+UQRA as a dependency. Its versioned `project.yaml` models project, turbine,
+solver, and analysis configuration. Paths are resolved by the application layer
+before later solver adapters execute. UQRA contains no project-schema or
+offshore-domain imports.
 
 ------------------------------------------------------------------------
 
